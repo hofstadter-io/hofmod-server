@@ -1,6 +1,6 @@
 # hofmod-rest
 
-A Golang server genarator
+A Golang server generator
 
 Components:
 
@@ -16,6 +16,7 @@ It uses
 - this generator for the server
 - `hofmod-cli` for the binary entrypoint
 - `hofmod-cuefig` for server configuration
+- `hofmod-model` for modeling resources
 
 ##### Generate the server
 

@@ -3,11 +3,12 @@ package example
 import (
   cli_g "github.com/hofstadter-io/hofmod-cli/gen"
 	srv_g "github.com/hofstadter-io/hofmod-server/gen"
+	mod_g "github.com/hofstadter-io/hofmod-struct/gen"
 )
 
 Server: srv_g.#HofGenerator & {
-	Server: #Server
 	Outdir: "./example"
+	Server: #Server
 
 	// Needed because we are using the generator from within it's directory
 	PackageName: ""
@@ -19,3 +20,8 @@ Cli: cli_g.#HofGenerator & {
 	Cli: #Cli
 } @gen(server,cli)
 
+// The Data models for the server and database
+Models: mod_g.#HofGenerator & {
+	Outdir: "./example/dm"
+	Datamodel: #Datamodel
+} @gen(server,models)
