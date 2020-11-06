@@ -1,0 +1,9 @@
+module github.com/hofstadter-io/hofmod-server
+
+cue master
+
+require (
+  github.com/hofstadter-io/hof v0.5.12
+)
+
+replace github.com/hofstadter-io/hof => ../../hof
