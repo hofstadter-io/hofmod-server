@@ -2,3 +2,5 @@
 /vendor/
 /.hof/
 /example/server/
+/ex
+/example/cmd/

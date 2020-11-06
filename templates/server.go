@@ -25,7 +25,7 @@ func Run() {
 	}
 
 	// setup router
-	err := setupRouter(e)
+	err = setupRouter(e)
 	if err != nil {
 		panic(err)
 	}

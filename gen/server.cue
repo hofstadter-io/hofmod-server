@@ -5,8 +5,6 @@ import (
 
   hof "github.com/hofstadter-io/hof/schema"
 
-  //cli_g "github.com/hofstadter-io/hofmod-cli/gen"
-
   "github.com/hofstadter-io/hofmod-server/schema"
 )
 
@@ -37,7 +35,6 @@ import (
 
   // Combine everything together and output files that might need to be generated
   All: [
-   //[ for _, F in CliFiles { F } ],
    [ for _, F in OnceFiles { F } ],
    [ for _, F in L1_RestFiles { F } ],
    [ for _, F in L2_RestFiles { F } ],
@@ -102,11 +99,6 @@ import (
       Filepath: "\(OutdirConfig.ServerOutdir)/\(R.Parent.Parent.Name)/\(R.Parent.Name)/\(R.Name).go"
     }
   ]
-
-	// CLI generator to act as binary entrypoint
-	//CliFiles: cli_g.#HofGenerator & {
-		//Cli: In.SERVER.Cli
-	//}.Out
 
 	...
 }
