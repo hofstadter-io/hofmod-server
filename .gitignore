@@ -1,7 +1,4 @@
 /cue.mod/pkg/
 /vendor/
 /.hof/
-/example/server/
-/ex
-/example/cmd/
-/example/dm/
+/output/
