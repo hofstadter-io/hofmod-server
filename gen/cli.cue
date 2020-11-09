@@ -27,6 +27,33 @@ import (
 
 		OmitRun: true
 
+		Imports: [{ Path: path.Clean("\(Module)/\(Outdir)/server/\(Server.serverName)/config"), As: "config"}]
+		PersistentPrerun: true
+		PersistentPrerunBody: #PersistentPrerunBody
+
+		Pflags: [{
+			Name: "env"
+			Long: "env"
+			Short: "E"
+			Type: "string"
+			Default: "\"dev\""
+			Help: "Environment to use, also the package from config/secret to load"
+		},{
+			Name: "config"
+			Long: "config"
+			Short: "C"
+			Type: "[]string"
+			Default: "[]string{\"./config\"}"
+			Help: "Entrypoint(s) to Cue config(s) to use"
+		},{
+			Name: "secret"
+			Long: "secret"
+			Short: "S"
+			Type: "[]string"
+			Default: "[]string{\"./secret\"}"
+			Help: "Entrypoint(s) to Cue secret(s) to use"
+		}]
+
 		Commands: [{
 			Name: "serve"
 			Short: "run the server"
@@ -36,6 +63,18 @@ import (
 
 			Body: """
 			server.Run()
+			"""
+			
+		},{
+			Name: "config"
+
+			Short: "view server config values"
+			Long: Short
+
+			Imports: [{ Path: path.Clean("\(Module)/\(Outdir)/server/\(Server.serverName)/config"), As: "config"}]
+
+			Body: """
+			err = config.Print()
 			"""
 		},{
 			Name: "db"
@@ -63,6 +102,10 @@ import (
 	}
 }
 
+#PersistentPrerunBody: """
+err = config.Load()
+"""
+
 #DbTestBody: """
 err = db.OpenPostgres()
 if err != nil {
@@ -83,5 +126,5 @@ if err != nil {
 	return err
 }
 
-fmt.Println("Migration Completed")
+fmt.Println("Migration Complete")
 """

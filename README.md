@@ -13,23 +13,39 @@ Components:
 The design is in the `./example/*.cue` files.
 It uses
 
-- this generator for the server
+- `hofmod-server` for a REST API
 - `hofmod-cli` for the binary entrypoint
-- `hofmod-cuefig` for server configuration
 - `hofmod-model` for modeling resources
 
-##### Generate the server
+##### Generate and build the server
 
 ```sh
 hof mod vendor cue
-hof gen ./example
+make gen
+make build
 ```
 
-##### Build and run the server
+##### Database setup
 
 ```sh
-go build -o ex ./example/cmd/example/
-./ex serve
+# Starts Postgres 13 in docker
+make dev-db-start
+
+# Check db connection
+./server db test
+
+# Migrate the DB Schema
+./server db migrate
+
+# Seed the database
+./server db seed seeds/all.cue
+```
+
+##### Run the server
+
+```sh
+# Run the server
+./server serve
 ```
 
 ##### Call the server

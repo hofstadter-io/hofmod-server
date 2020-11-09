@@ -9,5 +9,4 @@ require (
 
 replace github.com/hofstadter-io/hof => ../../hof
 replace github.com/hofstadter-io/hofmod-cli => ../cli
-replace github.com/hofstadter-io/hofmod-cuefig => ../cli
 replace github.com/hofstadter-io/hofmod-struct => ../struct

@@ -3,6 +3,9 @@ help:
 	@cat Makefile
 	@echo "no arg supplied"
 
+.PHONY: server
+server: gen build
+
 .PHONY: gen
 gen:
 	@hof gen ./example/
@@ -31,5 +34,9 @@ dev-db-stop:
 	docker rm -f example-db
 
 .PHONY: dev-db-clean
-dev-db-clean:
+dev-db-clean: dev-db-stop
 	rm -rf ./data/db
+
+.PHONY: dev-db-psql
+dev-db-psql:
+	@psql postgresql://example:example@localhost:5432/example

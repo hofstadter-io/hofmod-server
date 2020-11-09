@@ -54,6 +54,10 @@ import (
   // Files that are not repeatedly used, they are generated once for the whole CLI
   OnceFiles: [...hof.#HofGeneratorFile] & [
     {
+      TemplateName: "config.go"
+      Filepath: "\(OutdirConfig.ServerOutdir)/config/config.go"
+    },
+    {
       TemplateName: "server.go"
       Filepath: "\(OutdirConfig.ServerOutdir)/server.go"
     },

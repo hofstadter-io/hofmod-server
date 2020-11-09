@@ -8,13 +8,23 @@ import (
   _ "github.com/jackc/pgx/v4/stdlib"
   "gorm.io/driver/postgres"
   "gorm.io/gorm"
+
+	"{{ .ModuleImport }}/server/{{ .SERVER.serverName }}/config"
 )
 
 func OpenPostgres() (err error) {
 
-  dsn := "host=localhost user={{ $name }} password={{ $name }} dbname={{ $name }} port=5432 sslmode=disable TimeZone=UTC"
+  dsn, err := config.Get("database.dsn")
+  if err != nil {
+    return err
+  }
 
-  sqlDB, err = sql.Open("pgx", dsn)
+  dsnStr, err := dsn.String()
+  if err != nil {
+    return err
+  }
+
+  sqlDB, err = sql.Open("pgx", dsnStr)
   if err != nil {
     return err
   }
