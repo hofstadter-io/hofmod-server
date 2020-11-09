@@ -6,5 +6,6 @@ import (
 
 #Server: srv_s.#Server & {
 	Name: "Example"
-	Package: "github.com/hofstadter-io/hofmod-server/example"
+	Package: "github.com/hofstadter-io/hofmod-server/output"
+	Description: "An example server"
 }

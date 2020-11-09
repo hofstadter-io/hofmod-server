@@ -1,6 +1,8 @@
 package gen
 
 import (
+	"path"
+
   cli_g "github.com/hofstadter-io/hofmod-cli/gen"
 	cli_s "github.com/hofstadter-io/hofmod-cli/schema"
 
@@ -12,13 +14,14 @@ import (
 #CliGen: cli_g.#HofGenerator & {
 	Outdir: string
 	Server: schema.#Server
+	Module: string
 
 	Cli: cli_s.#Cli & {
 		Name: Server.Name
-		Package: "\(Server.Package)/cmd/example"
+		Package: "\(Server.Package)/cmd/\(Server.serverName)"
 
-		Usage: "example"
-		Short: "an example server"
+		Usage: "\(Server.serverName)"
+		Short: Server.description | "server cli"
 
 		Updates: false
 
@@ -29,7 +32,7 @@ import (
 			Short: "run the server"
 			Long: Short
 
-			Imports: [{ Path: "github.com/hofstadter-io/hofmod-server/example/server/example", As: "server"}]
+			Imports: [{ Path: path.Clean("\(Module)/\(Outdir)/server/\(Server.serverName)"), As: "server"}]
 
 			Body: """
 			server.Run()

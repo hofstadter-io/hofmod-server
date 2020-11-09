@@ -9,6 +9,8 @@ Server: srv_g.#HofGenerator & {
 	Server: #Server
 	Datamodel: #Datamodel
 
+	Module: "github.com/hofstadter-io/hofmod-server"
+
 	// Needed because we are using the generator from within it's directory
 	PackageName: ""
 } @gen(server,golang)

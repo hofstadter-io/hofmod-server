@@ -1,6 +1,7 @@
 package schema
 
 #Authentication: {
+	Password: bool | *true
 	ApiKey: bool | *true
 }
 

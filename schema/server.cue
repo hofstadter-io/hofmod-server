@@ -10,6 +10,9 @@ import (
   ServerName:  strings.ToTitle(Name)
   SERVER_NAME: strings.ToUpper(Name)
 
+	// A short description
+	Description: string
+
   Package:  string
 
 	AuthConfig: {
@@ -17,6 +20,7 @@ import (
 		Authorization:  #Authorization
 	}
 
+	// Rest configuration
 	Rest: #Rest
 
 	// Setup Goreleaser config
