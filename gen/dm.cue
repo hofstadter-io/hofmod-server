@@ -16,8 +16,9 @@ import (
 				Models: {
 
 					Apikey: {
+						ORM: true
+						SoftDelete: true
 						Fields: {
-							hof.#CommonFields
 							name: hof.#String
 							key:  hof.#UUID
 						}

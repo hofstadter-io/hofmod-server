@@ -18,16 +18,18 @@ import (
 }
 
 #User: hof.#Model & {
+	ORM: true
+	SoftDelete: true
 	Fields: {
-		hof.#CommonFields
 		email: hof.#Email & { nullable: false }
 		name:  hof.#String
 	}
 }
 
 #Todo: hof.#Model & {
+	ORM: true
+	SoftDelete: true
 	Fields: {
-		hof.#CommonFields
 		name:     hof.#String & { unique: true }
 		content:  hof.#String & { length: 2048 }
 		complete: hof.#Bool
