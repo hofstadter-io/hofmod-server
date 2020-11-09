@@ -3,34 +3,25 @@ package gen
 import (
 	"list"
 
-  cli_g "github.com/hofstadter-io/hofmod-cli/gen"
-	cli_s "github.com/hofstadter-io/hofmod-cli/schema"
-
-  // cfg_g "github.com/hofstadter-io/hofmod-cuefig/gen"
-
-	mod_g "github.com/hofstadter-io/hofmod-struct/gen"
-
   hof "github.com/hofstadter-io/hof/schema"
 
   "github.com/hofstadter-io/hofmod-server/schema"
 )
 
-#HofGenerator: hof.#HofGenerator & {
+#ServerGen: hof.#HofGenerator & {
+	// User inputs
   Server: schema.#Server
-	let GenServer = Server
-
   Outdir: string | *"./"
-	let GenOutdir = Outdir
 
   // Internal
+
+  In: {
+    SERVER: Server
+  }
 
   OutdirConfig: {
     CiOutdir: string | *"\(Outdir)/ci/\(In.SERVER.serverName)"
     ServerOutdir: string | *"\(Outdir)/server/\(In.SERVER.serverName)"
-  }
-
-  In: {
-    SERVER: Server
   }
 
   basedir: "server/\(In.SERVER.serverName)"
@@ -110,59 +101,6 @@ import (
     }
   ]
 
-	Generators: {
-		// CLI generator to act as binary entrypoint
-		Cli: cli_g.#HofGenerator & {
-			Outdir: "\(GenOutdir)"
-			Cli: cli_s.#Cli & {
-				Name: GenServer.Name
-				Package: "\(GenServer.Package)/cmd/example"
-
-				Usage: "example"
-				Short: "an example server"
-
-				Updates: false
-
-				OmitRun: true
-
-				Commands: [{
-					Name: "serve"
-					Short: "run the server"
-					Long: Short
-
-					Imports: [{ Path: "github.com/hofstadter-io/hofmod-server/example/server/example", As: "server"}]
-
-					Body: """
-					server.Run()
-					"""
-				}]
-			}
-		}
-
-
-		BuiltinModels: mod_g.#HofGenerator & {
-			Outdir: "\(GenOutdir)/dm"
-			Datamodel: hof.#Datamodel & {
-				Name: "Builtin"
-
-				Modelsets: {
-					Builtin: hof.#Modelset & {
-						Models: {
-
-							Apikey: {
-								Fields: {
-									hof.#CommonFields
-									name: hof.#String
-									key:  hof.#UUID
-								}
-							}
-
-						}
-					}
-				}
-			}
-		}
-	}
-
 	...
 }
+
