@@ -37,6 +37,51 @@ import (
 			Body: """
 			server.Run()
 			"""
+		},{
+			Name: "db"
+			Short: "work with the database"
+			Long: Short
+
+			Commands: [{
+				Name: "test"
+				Short: "test connecting to the db"
+				Long: Short
+
+				Imports: [{ Path: path.Clean("\(Module)/\(Outdir)/server/\(Server.serverName)/db"), As: "db"}]
+
+				Body: #DbTestBody
+			},{
+				Name: "migrate"
+				Short: "auto-migrate the database schema"
+				Long: "Auto migrates the database schema to match the latest design. Does not drop columns or delete tables."
+
+				Imports: [{ Path: path.Clean("\(Module)/\(Outdir)/server/\(Server.serverName)/db"), As: "db"}]
+
+				Body: #DbMigrateBody
+			}]
 		}]
 	}
 }
+
+#DbTestBody: """
+err = db.OpenPostgres()
+if err != nil {
+	return err
+}
+
+fmt.Println("OK")
+"""
+
+#DbMigrateBody: """
+err = db.OpenPostgres()
+if err != nil {
+	return err
+}
+
+err = db.RunMigrations()
+if err != nil {
+	return err
+}
+
+fmt.Println("Migration Completed")
+"""

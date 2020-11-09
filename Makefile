@@ -10,3 +10,26 @@ gen:
 .PHONY: build
 build:
 	@go build -o server ./output/cmd/example/
+
+.PHONY: clean
+clean:
+	rm -rf ./.hof/ ./output/ server
+
+.PHONY: dev-db-start
+dev-db-start:
+	docker run -d --rm -it \
+		--name example-db \
+		-p 5432:5432 \
+		-e POSTGRES_DB=example \
+		-e POSTGRES_USER=example \
+		-e POSTGRES_PASSWORD=example \
+		-v $(pwd)/data/db:/var/lib/postgresql/data \
+		postgres:13
+
+.PHONY: dev-db-stop
+dev-db-stop:
+	docker rm -f example-db
+
+.PHONY: dev-db-clean
+dev-db-clean:
+	rm -rf ./data/db

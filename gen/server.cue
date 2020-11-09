@@ -2,6 +2,7 @@ package gen
 
 import (
 	"list"
+	"path"
 
   hof "github.com/hofstadter-io/hof/schema"
 
@@ -12,11 +13,18 @@ import (
 	// User inputs
   Server: schema.#Server
   Outdir: string | *"./"
+	UserModels: hof.#Datamodel
+	BuiltinModels: hof.#Datamodel
 
   // Internal
 
   In: {
     SERVER: Server
+		MODELS: {
+			User: UserModels
+			Builtin: BuiltinModels
+		}
+		ModuleImport: path.Clean("\(Module)/\(Outdir)")
   }
 
   OutdirConfig: {
@@ -26,6 +34,7 @@ import (
 
   basedir: "server/\(In.SERVER.serverName)"
 
+	Module: string
   PackageName: "" | *"github.com/hofstadter-io/hofmod-server"
 
   PartialsDir:  "./partials/"
@@ -56,6 +65,18 @@ import (
       TemplateName: "middleware.go"
       Filepath: "\(OutdirConfig.ServerOutdir)/middleware.go"
     },
+		{
+			TemplateName: "db/common.go"
+			Filepath: "\(OutdirConfig.ServerOutdir)/db/common.go"
+		},
+		{
+			TemplateName: "db/migrate.go"
+			Filepath: "\(OutdirConfig.ServerOutdir)/db/migrate.go"
+		},
+		{
+			TemplateName: "db/postgres.go"
+			Filepath: "\(OutdirConfig.ServerOutdir)/db/postgres.go"
+		},
   ]
 
   // Sub command tree

@@ -32,20 +32,26 @@ import (
 
 	// Sub-generators
 	Generators: {
+
 		ServerGen: #ServerGen & {
 			Outdir: GenOutdir
 			Module: ModuleInput
-			Server: ServerInput
 			PackageName: PackageNameInput
+			Server: ServerInput
+			UserModels: DatamodelInput
+			BuiltinModels: #BuiltinModels & { Server: ServerInput }
 		}
+
 		CliGen: #CliGen & {
 			Outdir: GenOutdir
 			Module: ModuleInput
 			Server: ServerInput
 		}
+
 		ModelGen: #ModelGen & {
 			Outdir: "\(GenOutdir)/dm"
 			Module: ModuleInput
+			Server: ServerInput
 			Usermodel: DatamodelInput
 		}
 	}

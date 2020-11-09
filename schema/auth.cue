@@ -2,9 +2,10 @@ package schema
 
 #Authentication: {
 	Password: bool | *true
-	ApiKey: bool | *true
+	Apikey: bool | *true
 }
 
 #Authorization: {
-	Roles: [...string] | *["admin", "user", "anon"]
+	UserRoles: [...string] | *["super", "admin", "user", "anon"]
+	GroupRoles: [...string] | *["owner", "admin", "user"]
 }

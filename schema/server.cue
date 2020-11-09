@@ -20,6 +20,8 @@ import (
 		Authorization:  #Authorization
 	}
 
+	DatabaseConfig: #DatabaseConfig
+
 	// Rest configuration
 	Rest: #Rest
 
