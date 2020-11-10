@@ -122,7 +122,8 @@ import (
       Filepath: "\(Outdir)/dm/\(M.Parent.Name)/\(M.Name).go"
     }
   ]
-  // Sub command tree
+
+	// Rest Routes
   L1_RestFiles: [...hof.#HofGeneratorFile] & list.FlattenN([[
     for _, R in Server.Rest.Routes
     {
@@ -132,8 +133,8 @@ import (
           PackageName: "rest"
         }
       }
-      TemplateName: "rest/handler.go"
-      Filepath: "\(OutdirConfig.ServerOutdir)/rest/\(In.ROUTE.Name).go"
+      TemplateName: "rest/route.go"
+      Filepath: "\(OutdirConfig.ServerOutdir)/routes/\(In.ROUTE.Name).go"
 		}
 	]], 1)
 
@@ -146,8 +147,8 @@ import (
       In: {
         REST: R
       }
-      TemplateName: "rest/handler.go"
-      Filepath: "\(OutdirConfig.ServerOutdir)/rest/\(R.Parent.Name)/\(R.Name).go"
+      TemplateName: "rest/route.go"
+      Filepath: "\(OutdirConfig.ServerOutdir)/routes/\(R.Parent.Name)/\(R.Name).go"
     }
   ]
 
@@ -160,10 +161,12 @@ import (
       In: {
         REST: R
       }
-      TemplateName: "rest/handler.go"
-      Filepath: "\(OutdirConfig.ServerOutdir)/\(R.Parent.Parent.Name)/\(R.Parent.Name)/\(R.Name).go"
+      TemplateName: "rest/route.go"
+      Filepath: "\(OutdirConfig.ServerOutdir)/routes/\(R.Parent.Parent.Name)/\(R.Parent.Name)/\(R.Name).go"
     }
   ]
+
+	// Resource Routes
 
 	...
 }

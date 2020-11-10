@@ -1,6 +1,6 @@
 type {{ .MODEL.ModelName }} struct {
 	{{ if .MODEL.ORM }}
-	ID uuid.UUID `gorm:"primaryKey"`
+	ID uuid.UUID `gorm:"type:uuid;primaryKey"`
 
 	CreatedAt time.Time
 
@@ -12,5 +12,9 @@ type {{ .MODEL.ModelName }} struct {
 
 	{{ range $i, $F := .MODEL.Fields }}
 	{{ template "dm/field.go" $F }}
+	{{end}}
+
+	{{ range $i, $R := .MODEL.Relations }}
+	{{ template "dm/relations.go" $R }}
 	{{end}}
 }

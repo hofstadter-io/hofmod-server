@@ -2,15 +2,18 @@ package db
 
 import (
   "time"
-	"database/sql"
 
   "gorm.io/gorm"
 )
 
 var DB *gorm.DB
-var sqlDB *sql.DB
 
 func CommonSetup() (err error) {
+	sqlDB, err := DB.DB()
+	if err != nil {
+		return err
+	}
+
 	// SetMaxIdleConns sets the maximum number of connections in the idle connection pool.
 	sqlDB.SetMaxIdleConns(10)
 

@@ -27,6 +27,11 @@ import (
 #BuiltinModels: hof.#Modelset & {
 	Name: "Builtin"
 	Server: schema.#Server
+	MigrateOrder: [
+		Models.User,
+		Models.Group,
+		Models.Apikey,
+	]
 	Models: {
 
 		if (Server.EntityConfig.users & true) != _|_ {
@@ -43,6 +48,33 @@ import (
 			}
 		}
 
+		if (Server.EntityConfig.groups & true) != _|_ {
+			Group: hof.#Model & {
+				ORM: true
+				SoftDelete: true
+				Fields: {
+					name:  hof.#String
+					about: hof.#String
+				}
+				Relations: {
+					Users: {
+						relation: "Many2Many"
+						type: "User"
+						table: "user_groups"
+					}
+				}
+			}
+			User: {
+				Relations: {
+					Groups: {
+						relation: "Many2Many"
+						type: "Group"
+						table: "user_groups"
+					}
+				}
+			}
+		}
+
 		if (Server.AuthConfig.Authentication.Apikey & true) != _|_ {
 			Apikey: {
 				ORM: true
@@ -50,6 +82,22 @@ import (
 				Fields: {
 					name: hof.#String
 					key:  hof.#UUID
+				}
+				Relations: {
+					User: {
+						relation: "BelongsTo"
+						type: "User"
+						GormTag: "gorm:\"type:uuid;foreignKey:UserID\""
+					}
+				}
+			}
+			User: {
+				Relations: {
+					Apikey: {
+						relation: "HasMany"
+						type: "Apikey"
+						foreignKey: "UserID"
+					}
 				}
 			}
 		}

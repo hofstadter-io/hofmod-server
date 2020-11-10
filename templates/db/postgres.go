@@ -3,7 +3,7 @@ package db
 {{ $name := .SERVER.serverName }}
 
 import (
-  "database/sql"
+  // "database/sql"
 
   _ "github.com/jackc/pgx/v4/stdlib"
   "gorm.io/driver/postgres"
@@ -24,17 +24,15 @@ func OpenPostgres() (err error) {
     return err
   }
 
-  sqlDB, err = sql.Open("pgx", dsnStr)
-  if err != nil {
-    return err
-  }
+  DB, err = gorm.Open(postgres.New(postgres.Config{
+    DSN: dsnStr,
+    PreferSimpleProtocol: true, // disables implicit prepared statement usage
+	}), &gorm.Config{
+		SkipDefaultTransaction: true,
+		DisableForeignKeyConstraintWhenMigrating: true,
+	})
 
   CommonSetup()
-
-  DB, err = gorm.Open(postgres.New(postgres.Config{
-    Conn: sqlDB,
-    PreferSimpleProtocol: true, // disables implicit prepared statement usage
-  }), &gorm.Config{})
 
   if err != nil {
     return err

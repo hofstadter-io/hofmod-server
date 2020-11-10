@@ -1,6 +1,9 @@
 package stg
 
 Config: {
+	app: {
+		secret: "stgggggg"
+	}
 	database: {
 		host: "staging.local"
 		port: "5432"

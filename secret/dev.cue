@@ -1,6 +1,9 @@
 package dev
 
 Config: {
+	app: {
+		secret: "shhhhhhh"
+	}
 	database: {
 		host: "localhost"
 		port: "5432"

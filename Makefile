@@ -26,7 +26,7 @@ dev-db-start:
 		-e POSTGRES_DB=example \
 		-e POSTGRES_USER=example \
 		-e POSTGRES_PASSWORD=example \
-		-v $(pwd)/data/db:/var/lib/postgresql/data \
+		-v ${PWD}/data/db:/var/lib/postgresql/data \
 		postgres:13
 
 .PHONY: dev-db-stop
@@ -34,9 +34,15 @@ dev-db-stop:
 	docker rm -f example-db
 
 .PHONY: dev-db-clean
-dev-db-clean: dev-db-stop
-	rm -rf ./data/db
+dev-db-clean:
+	sudo rm -rf ./data/db
+
+.PHONY: dev-db-clean-all
+dev-db-clean-all: dev-db-stop dev-db-clean
 
 .PHONY: dev-db-psql
 dev-db-psql:
-	@psql postgresql://example:example@localhost:5432/example
+	@docker run --rm -it --name psql \
+		--network host \
+		postgres:13 \
+		psql postgresql://example:example@localhost:5432/example

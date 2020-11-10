@@ -60,4 +60,4 @@
 
 {{ end }}
 {{ if .Doc }}// {{ .Doc }}{{end}}
-{{ $name }} {{ $type }}
+{{ $name }} {{ $type }} {{ if .GormTag }}`{{ .GormTag }}`{{ end }}

@@ -11,17 +11,17 @@ import (
 
 
 func RunMigrations() (err error) {
-	// Builtin Models
 	DB.AutoMigrate(
-	{{ range $i, $model := .MODELS.Builtin.Models -}}
+	// Builtin Models
+	{{ range $i, $model := .MODELS.Builtin.MigrateOrder -}}
 		&Builtin.{{ $model.Name }}{},
 	{{ end }}
-	)
 
 	// User Models
-	DB.AutoMigrate(
 	{{ range $i, $mset := .MODELS.User.Modelsets -}}
-	{{ range $j, $model := $mset.Models -}}
+	{{ $MODELS := $mset.Models -}}
+	{{ if $mset.MigrateOrder }}{{ $MODELS = $mset.MigrateOrder }}{{ end -}}
+	{{ range $j, $model := $MODELS -}}
 		&{{ $mset.Name }}.{{ $model.Name }}{},
 	{{ end }}
 	{{ end }}
