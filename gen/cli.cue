@@ -27,7 +27,7 @@ import (
 
 		OmitRun: true
 
-		Imports: [{ Path: path.Clean("\(Module)/\(Outdir)/server/\(Server.serverName)/config"), As: "config"}]
+		Imports: [{ Path: path.Clean("\(Module)/\(Outdir)/server/config"), As: "config"}]
 		PersistentPrerun: true
 		PersistentPrerunBody: #PersistentPrerunBody
 
@@ -59,7 +59,7 @@ import (
 			Short: "run the server"
 			Long: Short
 
-			Imports: [{ Path: path.Clean("\(Module)/\(Outdir)/server/\(Server.serverName)"), As: "server"}]
+			Imports: [{ Path: path.Clean("\(Module)/\(Outdir)/server"), As: "server"}]
 
 			Body: """
 			server.Run()
@@ -71,7 +71,7 @@ import (
 			Short: "view server config values"
 			Long: Short
 
-			Imports: [{ Path: path.Clean("\(Module)/\(Outdir)/server/\(Server.serverName)/config"), As: "config"}]
+			Imports: [{ Path: path.Clean("\(Module)/\(Outdir)/server/config"), As: "config"}]
 
 			Body: """
 			err = config.Print()
@@ -86,7 +86,7 @@ import (
 				Short: "test connecting to the db"
 				Long: Short
 
-				Imports: [{ Path: path.Clean("\(Module)/\(Outdir)/server/\(Server.serverName)/db"), As: "db"}]
+				Imports: [{ Path: path.Clean("\(Module)/\(Outdir)/server/db"), As: "db"}]
 
 				Body: #DbTestBody
 			},{
@@ -94,7 +94,7 @@ import (
 				Short: "auto-migrate the database schema"
 				Long: "Auto migrates the database schema to match the latest design. Does not drop columns or delete tables."
 
-				Imports: [{ Path: path.Clean("\(Module)/\(Outdir)/server/\(Server.serverName)/db"), As: "db"}]
+				Imports: [{ Path: path.Clean("\(Module)/\(Outdir)/server/db"), As: "db"}]
 
 				Body: #DbMigrateBody
 			}]

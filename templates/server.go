@@ -11,7 +11,7 @@ import (
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/gommon/log"
 
-	"{{ .ModuleImport }}/server/{{ .SERVER.serverName }}/config"
+	"{{ .ModuleImport }}/server/config"
 )
 
 func Run() {

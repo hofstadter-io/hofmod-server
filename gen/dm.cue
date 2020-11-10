@@ -39,7 +39,10 @@ import (
 				ORM: true
 				SoftDelete: true
 				Fields: {
-					email: hof.#Email & { nullable: false }
+					email: hof.#Email & {
+						nullable: false
+						GormTag: "gorm:\"uniqueIndex;not null\""
+					}
 					name:  hof.#String
 					if (Server.AuthConfig.Authentication.Password & true) != _|_ {
 						password: hof.#Password

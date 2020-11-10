@@ -12,6 +12,11 @@ import (
 				Todo: #Todo
 			}
 		}
+		Builtin: {
+			Models: {
+				User: #User
+			}
+		}
 	}
 	...
 }
@@ -23,5 +28,22 @@ import (
 		name:     hof.#String & { unique: true }
 		content:  hof.#String & { length: 2048 }
 		complete: hof.#Bool
+	}
+	Relations: {
+		User: {
+			relation: "BelongsTo"
+			type: "User"
+			GormTag: "gorm:\"type:uuid;foreignKey:UserID\""
+		}
+	}
+}
+
+#User: hof.#Model & {
+	Relations: {
+		Todo: {
+			relation: "HasMany"
+			type: "Todo"
+			foreignKey: "UserID"
+		}
 	}
 }

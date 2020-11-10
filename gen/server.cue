@@ -38,7 +38,7 @@ import (
 
   OutdirConfig: {
     CiOutdir: string | *"\(Outdir)/ci/\(In.SERVER.serverName)"
-    ServerOutdir: string | *"\(Outdir)/server/\(In.SERVER.serverName)"
+    ServerOutdir: string | *"\(Outdir)/server"
   }
 
   basedir: "server/\(In.SERVER.serverName)"
@@ -100,7 +100,6 @@ import (
       In: {
         MODELSET: {
           M
-          PackageName: "dm"
         }
       }
 		}
@@ -115,11 +114,11 @@ import (
       In: {
 				MODEL: {
 					M
-					PackageName: "\(M.Parent.Name)"
+          PackageName: "dm"
 				}
       }
       TemplateName: "dm/model.go"
-      Filepath: "\(Outdir)/dm/\(M.Parent.Name)/\(M.Name).go"
+      Filepath: "\(Outdir)/dm/\(M.modelName).go"
     }
   ]
 

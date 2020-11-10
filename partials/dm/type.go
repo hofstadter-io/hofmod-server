@@ -1,6 +1,6 @@
 type {{ .MODEL.ModelName }} struct {
 	{{ if .MODEL.ORM }}
-	ID uuid.UUID `gorm:"type:uuid;primaryKey"`
+	ID uuid.UUID `gorm:"type:uuid;primaryKey;default:gen_random_uuid()"`
 
 	CreatedAt time.Time
 

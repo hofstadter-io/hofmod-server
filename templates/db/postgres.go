@@ -9,7 +9,7 @@ import (
   "gorm.io/driver/postgres"
   "gorm.io/gorm"
 
-	"{{ .ModuleImport }}/server/{{ .SERVER.serverName }}/config"
+	"{{ .ModuleImport }}/server/config"
 )
 
 func OpenPostgres() (err error) {
