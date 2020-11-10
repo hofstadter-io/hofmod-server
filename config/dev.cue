@@ -1,6 +1,9 @@
 package dev
 
 Config: {
-	host: "0.0.0.0"
 	port: "1323"
+	logging: {
+		level: "info"
+		// format: "..." // https://echo.labstack.com/middleware/logger
+	}
 }

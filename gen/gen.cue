@@ -48,11 +48,5 @@ import (
 			Server: ServerInput
 		}
 
-		ModelGen: #ModelGen & {
-			Outdir: "\(GenOutdir)/dm"
-			Module: ModuleInput
-			Server: ServerInput
-			Usermodel: DatamodelInput
-		}
 	}
 }

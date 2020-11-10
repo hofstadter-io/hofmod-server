@@ -55,7 +55,7 @@ import (
 		}]
 
 		Commands: [{
-			Name: "serve"
+			Name: "run"
 			Short: "run the server"
 			Long: Short
 

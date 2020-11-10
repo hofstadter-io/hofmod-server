@@ -2,24 +2,31 @@ package server
 
 import (
 	"context"
+	"fmt"
 	"os"
 	"os/signal"
+	"strings"
 	"time"
 
 	"github.com/labstack/echo/v4"
-
 	"github.com/labstack/gommon/log"
+
+	"{{ .ModuleImport }}/server/{{ .SERVER.serverName }}/config"
 )
 
 func Run() {
+	var err error
+
 	// create echo server
 	e := echo.New()
 
-	// set logging level
-	e.Logger.SetLevel(log.INFO)
+	err = setupLogging(e)
+	if err != nil {
+		panic(err)
+	}
 
 	// add middleware
-	err := setupMiddleware(e)
+	err = setupMiddleware(e)
 	if err != nil {
 		panic(err)
 	}
@@ -30,9 +37,19 @@ func Run() {
 		panic(err)
 	}
 
+	port, err := config.Get("port")
+	if err != nil {
+		panic(err)
+	}
+	portStr, err := port.String()
+	if err != nil {
+		panic(err)
+	}
+	portStr = ":" + portStr
+
 	// Start server with background goroutine
 	go func() {
-		if err := e.Start(":1323"); err != nil {
+		if err := e.Start(portStr); err != nil {
 			e.Logger.Info("shutting down the server")
 		}
 	}()
@@ -51,4 +68,50 @@ func Run() {
 	if err := e.Shutdown(ctx); err != nil {
 		e.Logger.Fatal(err)
 	}
+}
+
+func setupLogging(e *echo.Echo) error {
+	loglvl, err := config.Get("logging.level")
+	if err != nil && !strings.Contains(err.Error(), "not found") {
+		return err
+	}
+	if loglvl.Exists() {
+		lvlStr, err := loglvl.String()
+		if err != nil {
+			return err
+		}
+
+		lvl, ok := logLevels[lvlStr]
+		if !ok {
+			return fmt.Errorf("Unknown logging level: %q. shold be in {debug,info,warn,error,off}", lvlStr)
+		}
+
+		e.Logger.SetLevel(lvl)
+	} else {
+		// set logging level
+		e.Logger.SetLevel(log.WARN)
+	}
+
+
+	format, err := config.Get("logging.format")
+	if err != nil && !strings.Contains(err.Error(), "not found") {
+		return err
+	}
+	if format.Exists() {
+		fmtStr, err := format.String()
+		if err != nil {
+			return err
+		}
+		e.Logger.SetHeader(fmtStr)
+	}
+
+	return nil
+}
+
+var logLevels map[string]log.Lvl = map[string]log.Lvl {
+	"debug": log.DEBUG,
+	"info": log.INFO,
+	"warn": log.WARN,
+	"error": log.ERROR,
+	"off": log.OFF,
 }

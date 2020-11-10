@@ -11,12 +11,21 @@ import (
 
 #ServerGen: hof.#HofGenerator & {
 	// User inputs
-  Server: schema.#Server
   Outdir: string | *"./"
+
+  Server: schema.#Server
+	let ServerInput = Server
+
 	UserModels: hof.#Datamodel
-	BuiltinModels: hof.#Datamodel
+	let UserModelsInput = UserModels
 
   // Internal
+	BuiltinModels: hof.#Datamodel
+
+	Datamodel: (#ModelGen & {
+		Server: ServerInput
+		UserModels: UserModelsInput
+	}).Datamodel
 
   In: {
     SERVER: Server
@@ -46,6 +55,7 @@ import (
   // Combine everything together and output files that might need to be generated
   All: [
    [ for _, F in OnceFiles { F } ],
+   [ for _, F in Models { F } ],
    [ for _, F in L1_RestFiles { F } ],
    [ for _, F in L2_RestFiles { F } ],
    [ for _, F in L3_RestFiles { F } ],
@@ -83,6 +93,35 @@ import (
 		},
   ]
 
+	// No actual files here
+  Modelsets: [...hof.#HofGeneratorFile] & list.FlattenN([[
+    for _, M in Datamodel.Modelsets
+    {
+      In: {
+        MODELSET: {
+          M
+          PackageName: "dm"
+        }
+      }
+		}
+	]], 1)
+
+  MPP: [ for P in Modelsets if len(P.In.MODELSET.Models) > 0 {
+    [ for M in P.In.MODELSET.Models { M,  Parent: { Name: P.In.MODELSET.Name } }]
+  }]
+  Models: [...hof.#HofGeneratorFile] & [ // List comprehension
+    for _, M in list.FlattenN(MPP, 1)
+    {
+      In: {
+				MODEL: {
+					M
+					PackageName: "\(M.Parent.Name)"
+				}
+      }
+      TemplateName: "dm/model.go"
+      Filepath: "\(Outdir)/dm/\(M.Parent.Name)/\(M.Name).go"
+    }
+  ]
   // Sub command tree
   L1_RestFiles: [...hof.#HofGeneratorFile] & list.FlattenN([[
     for _, R in Server.Rest.Routes

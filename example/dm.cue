@@ -9,21 +9,11 @@ import (
 	Modelsets: {
 		Example: hof.#Modelset & {
 			Models: {
-				User: #User
 				Todo: #Todo
 			}
 		}
 	}
 	...
-}
-
-#User: hof.#Model & {
-	ORM: true
-	SoftDelete: true
-	Fields: {
-		email: hof.#Email & { nullable: false }
-		name:  hof.#String
-	}
 }
 
 #Todo: hof.#Model & {

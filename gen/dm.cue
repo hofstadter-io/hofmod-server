@@ -1,24 +1,22 @@
 package gen
 
 import (
-	mod_g "github.com/hofstadter-io/hofmod-struct/gen"
-
   hof "github.com/hofstadter-io/hof/schema"
 
   "github.com/hofstadter-io/hofmod-server/schema"
 )
 
-#ModelGen: mod_g.#HofGenerator & {
+#ModelGen: {
 	Server: schema.#Server
 	let ServerInput = Server
 
-	Usermodel: hof.#Datamodel
-	let UsermodelInput = Usermodel
+	UserModels: hof.#Datamodel
+	let UserModelsInput = UserModels
 
 	Datamodel: hof.#Datamodel & {
 		Name: "ServerDatamodel"
 
-		Modelsets: UsermodelInput.Modelsets & {
+		Modelsets: UserModelsInput.Modelsets & {
 			Builtin: #BuiltinModels & { Server: ServerInput }
 			// leave open so user defined models can be added
 			...
@@ -30,6 +28,21 @@ import (
 	Name: "Builtin"
 	Server: schema.#Server
 	Models: {
+
+		if (Server.EntityConfig.users & true) != _|_ {
+			User: hof.#Model & {
+				ORM: true
+				SoftDelete: true
+				Fields: {
+					email: hof.#Email & { nullable: false }
+					name:  hof.#String
+					if (Server.AuthConfig.Authentication.Password & true) != _|_ {
+						password: hof.#Password
+					}
+				}
+			}
+		}
+
 		if (Server.AuthConfig.Authentication.Apikey & true) != _|_ {
 			Apikey: {
 				ORM: true
@@ -43,3 +56,5 @@ import (
 
 	}
 }
+
+

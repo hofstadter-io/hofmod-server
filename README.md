@@ -13,9 +13,8 @@ Components:
 The design is in the `./example/*.cue` files.
 It uses
 
-- `hofmod-server` for a REST API
+- `hofmod-server` for a REST API and extras
 - `hofmod-cli` for the binary entrypoint
-- `hofmod-model` for modeling resources
 
 ##### Generate and build the server
 
@@ -44,8 +43,8 @@ make dev-db-start
 ##### Run the server
 
 ```sh
-# Run the server
-./server serve
+# Run the example server in dev mode
+./server run
 ```
 
 ##### Call the server

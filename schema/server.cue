@@ -15,6 +15,8 @@ import (
 
   Package:  string
 
+	EntityConfig: #EntityConfig
+
 	AuthConfig: {
 		Authentication: #Authentication
 		Authorization:  #Authorization
