@@ -8,6 +8,9 @@ import (
 	Name: "Example"
 	Modelsets: {
 		Example: hof.#Modelset & {
+			MigrateOrder: [
+				Models.Todo,
+			]
 			Models: {
 				Todo: #Todo
 			}

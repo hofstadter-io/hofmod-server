@@ -88,6 +88,10 @@ import (
 			Filepath: "\(OutdirConfig.ServerOutdir)/db/migrate.go"
 		},
 		{
+			TemplateName: "db/seed.go"
+			Filepath: "\(OutdirConfig.ServerOutdir)/db/seed.go"
+		},
+		{
 			TemplateName: "db/postgres.go"
 			Filepath: "\(OutdirConfig.ServerOutdir)/db/postgres.go"
 		},

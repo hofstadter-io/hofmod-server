@@ -16,10 +16,12 @@ func RunMigrations() (err error) {
 
 	// User Models
 	{{ range $i, $mset := .MODELS.User.Modelsets -}}
+	{{ if ne $mset.ModelsetName "Builtin" }}
 	{{ $MODELS := $mset.Models -}}
 	{{ if $mset.MigrateOrder }}{{ $MODELS = $mset.MigrateOrder }}{{ end -}}
 	{{ range $j, $model := $MODELS -}}
 		&dm.{{ $model.ModelName }}{},
+	{{ end }}
 	{{ end }}
 	{{ end }}
 	)

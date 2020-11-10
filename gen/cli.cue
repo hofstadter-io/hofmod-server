@@ -81,6 +81,8 @@ import (
 			Short: "work with the database"
 			Long: Short
 
+			OmitRun: true
+
 			Commands: [{
 				Name: "test"
 				Short: "test connecting to the db"
@@ -97,6 +99,22 @@ import (
 				Imports: [{ Path: path.Clean("\(Module)/\(Outdir)/server/db"), As: "db"}]
 
 				Body: #DbMigrateBody
+			},{
+				Name: "seed"
+				Short: "seed your database"
+
+				Long: "Seeds the database using the Cue entrypoints"
+
+				Args: [{
+					Name: "entrypoints"
+					Type: "[]string"
+					Rest: true
+					Help: "Cue entrypoints to load seed data from. (default: './seeds/')"
+				}]
+
+				Imports: [{ Path: path.Clean("\(Module)/\(Outdir)/server/db"), As: "db"}]
+
+				Body: #DbSeedBody
 			}]
 		}]
 	}
@@ -127,4 +145,18 @@ if err != nil {
 }
 
 fmt.Println("Migration Complete")
+"""
+
+#DbSeedBody: """
+err = db.OpenPostgres()
+if err != nil {
+	return err
+}
+
+err = db.Seed(entrypoints)
+if err != nil {
+	return err
+}
+
+fmt.Println("Seeding Complete")
 """

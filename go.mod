@@ -14,6 +14,7 @@ require (
 	github.com/labstack/gommon v0.3.0
 	github.com/parnurzeal/gorequest v0.2.16 // indirect
 	github.com/spf13/cobra v1.1.1
+	golang.org/x/crypto v0.0.0-20200820211705-5c72a883971a
 	gorm.io/driver/postgres v1.0.5
 	gorm.io/gorm v1.20.6
 	moul.io/http2curl v1.0.0 // indirect
