@@ -14,7 +14,7 @@ import (
   SERVER_NAME: strings.ToUpper(Name)
 
 	// A short description
-	Description: string
+	Description: string | *""
 
   Package:  string
 
@@ -37,7 +37,7 @@ import (
 	}
 
 	DatabaseConfig: {
-		type: "postgres" | "mysql" | "sqlite" | "sqlserver"
+		type: *"postgres" | "mysql" | "sqlite" | "sqlserver"
 	}
 
 	// Routes & Resources
@@ -75,18 +75,90 @@ import (
 	RespBind?: {...}
 
 	Imports: [...string] | *[]
-	Body: string | *"""
-	c.String(http.StatusNotImplemented, "Not Implemented")
-	"""
+	Body?: string
 
 	Routes: [...#Route]
 }
 
 #Resources: [...#Resource] | *[]
 #Resource: {
-	Name: string
-	Path: string // TODO, add constraints / regex
 	Model: hof.#Model
 
-	Roles: [method=string]: [...string] | *[]
+	Name: string | *"\(Model.Name)"
+	Path: string | *"/\(Model.modelName)"
+
+	Routes: [...#Route]
+
+	// TODO, HUGE slowdown
+	//Routes: [...#Route] | *DefaultRoutes
+	//DefaultRoutes: (#DefaultResourceRoutes & { Model: ModelInput }).Routes
+	
+}
+
+#DefaultResourceRoutes: {
+	Model: hof.#Model
+
+	RoutesMap: {
+		Create: {
+			Name: "Create"
+			Path: ""
+			Method: "POST"
+			ReqBind: Model
+			RespBind: Model
+			Roles: ["super", "admin", "user"]
+			Body: string | *"""
+			c.Logger().Warn("Creating \(Model.Name) ")
+			c.String(http.StatusNotImplemented, "Not Implemented")
+			"""
+		}
+		Update: {
+			Name: "Update"
+			Path: ""
+			Method: "PATCH"
+			Params: ["id"]
+			ReqBind: Model
+			RespBind: Model
+			Roles: ["super", "admin", "user"]
+			Body: string | *"""
+			c.Logger().Warn("Updating \(Model.Name) ", id)
+			c.String(http.StatusNotImplemented, "Not Implemented")
+			"""
+		}
+		Delete: {
+			Name: "Delete"
+			Path: ""
+			Method: "DELETE"
+			Params: ["id"]
+			Roles: ["super", "admin", "user"]
+			Body: string | *"""
+			c.Logger().Warn("Deleting \(Model.Name) ", id)
+			c.String(http.StatusNotImplemented, "Not Implemented")
+			"""
+		}
+		List: {
+			Name: "List"
+			Path: ""
+			Method: "GET"
+			RespBind: Model
+			Roles: ["super", "admin", "user"]
+			Body: string | *"""
+			c.Logger().Warn("Listing \(Model.Name) ")
+			c.String(http.StatusNotImplemented, "Not Implemented")
+			"""
+		}
+		Get: {
+			Name: "Get"
+			Path: ""
+			Method: "GET"
+			Params: ["id"]
+			RespBind: Model
+			Roles: ["super", "admin", "user"]
+			Body: string | *"""
+			c.Logger().Warn("Getting \(Model.Name) ", id)
+			c.String(http.StatusNotImplemented, "Not Implemented")
+			"""
+		}
+	}
+
+	Routes: [ for r, R in RoutesMap { R }]
 }

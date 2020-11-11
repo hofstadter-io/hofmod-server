@@ -66,4 +66,10 @@ import (
 			"""
 		}]
 	}]
+
+	Resources: [{
+		Model: #Todo
+		// TODO, huge slowdown in definition with disjunction
+		Routes: (srv_s.#DefaultResourceRoutes & { Model: #Todo }).Routes
+	}]
 }

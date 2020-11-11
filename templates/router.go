@@ -10,7 +10,7 @@ import (
 
 	"{{ .ModuleImport }}/server/auth"
 	"{{ .ModuleImport }}/server/routes"
-	// "{{ .ModuleImport }}/server/resources"
+	"{{ .ModuleImport }}/server/resources"
 )
 
 {{ $SERVER := .SERVER }}
@@ -27,24 +27,16 @@ func setupRouter(e *echo.Echo) error {
 	auth.Routes(e)
 
 	// Explicit routes
-	Routes := e.Group("")
+	g := e.Group("")
 
 	{{ range $ROUTE := $SERVER.Routes -}}
-	Routes.{{$ROUTE.Method}}(
-		"{{ $ROUTE.Path }}{{ range $PATH := $ROUTE.Params }}/:{{$PATH}}{{ end }}",
-		routes.{{$ROUTE.Name}}Handler,
-		{{ if $ROUTE.Roles }}auth.MakeRoleChecker([]string{
-			{{ range $ROUTE.Roles }} "{{.}}",
-			{{ end }}
-		}),
-		{{ end }}
-	)
-	{{ if $ROUTE.Routes -}}
-	routes.{{ $ROUTE.Name }}Subroutes(Routes)
-	{{ end }}
+	routes.{{ $ROUTE.Name }}Routes(g)
 	{{ end }}
 
 	// Resource routes
+	{{ range $RESOURCE := $SERVER.Resources -}}
+	resources.{{ $RESOURCE.Name }}Routes(g)
+	{{end}}
 
 	return nil
 }

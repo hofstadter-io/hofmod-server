@@ -1,6 +1,8 @@
 package gen
 
 import (
+	"list"
+
   hof "github.com/hofstadter-io/hof/schema"
 
   "github.com/hofstadter-io/hofmod-server/schema"
@@ -16,8 +18,13 @@ import (
 	Datamodel: hof.#Datamodel & {
 		Name: "ServerDatamodel"
 
+		_ServerFields: ["Name", "Package", "EntityConfig", "AuthConfig"]
 		Modelsets: UserModelsInput.Modelsets & {
-			Builtin: #BuiltinModels & { Server: ServerInput }
+			Builtin: #BuiltinModels & { Server: { for k,v in ServerInput {
+				if list.Contains(_ServerFields, k) {
+					"\(k)": v
+				}
+			} } }
 			// leave open so user defined models can be added
 			...
 		}

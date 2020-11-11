@@ -59,6 +59,7 @@ import (
    [ for _, F in L1_RouteFiles { F } ],
    [ for _, F in L2_RouteFiles { F } ],
    [ for _, F in L3_RouteFiles { F } ],
+   [ for _, F in L1_ResourceFiles { F } ],
   ]
 
   // Files that are not repeatedly used, they are generated once for the whole CLI
@@ -192,6 +193,19 @@ import (
   ]
 
 	// Resource Routes
+  L1_ResourceFiles: [...hof.#HofGeneratorFile] & list.FlattenN([[
+    for _, R in Server.Resources
+    {
+      In: {
+        RESOURCE: {
+          R
+          PackageName: "resources"
+        }
+      }
+      TemplateName: "resource.go"
+      Filepath: "\(OutdirConfig.ServerOutdir)/resources/\(In.RESOURCE.Name).go"
+		}
+	]], 1)
 
 	...
 }

@@ -15,11 +15,31 @@ import (
 	{{ end }}
 	{{ end }}
 
+	{{ if .ROUTE.Roles }}
+	"{{ .ModuleImport }}/server/auth"
+	{{ end }}
+
 	{{ range $I := .ROUTE.Imports }}
 	"{{ $I }}"
 	{{ end }}
 )
 
-{{ template "handler.go" .ROUTE }}
+{{ $ROUTE := .ROUTE }}
 
-{{ template "subroutes.go" .ROUTE }}
+func {{ $ROUTE.Name }}Routes(G *echo.Group) {
+	g := G.Group("")
+	g.{{$ROUTE.Method}}(
+		"{{ $ROUTE.Path }}{{ range $PATH := $ROUTE.Params }}/:{{$PATH}}{{ end }}",
+		{{$ROUTE.Name}}Handler,
+		{{ if $ROUTE.Roles }}auth.MakeRoleChecker([]string{
+			{{ range $ROUTE.Roles }} "{{.}}",
+			{{ end }}
+		}),
+		{{ end }}
+	)
+	{{ range $SUB := $ROUTE.Routes }}
+	{{ $ROUTE.Name }}.{{ $SUB.Name }}Routes(g)
+	{{ end }}
+}
+
+{{ template "handler.go" .ROUTE }}

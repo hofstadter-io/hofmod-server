@@ -25,6 +25,7 @@ import (
 }
 
 #Todo: hof.#Model & {
+	Name: "Todo"
 	ORM: true
 	SoftDelete: true
 	Fields: {

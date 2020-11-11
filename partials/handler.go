@@ -11,6 +11,8 @@ func {{ $ROUTE.Name }}Handler(c echo.Context) (err error) {
 
 	{{ if $ROUTE.Body }}
 	{{ $ROUTE.Body }}
+	{{ else }}
+	c.String(http.StatusNotImplemented, "Not Implemented")
 	{{ end }}
 
 	return nil
