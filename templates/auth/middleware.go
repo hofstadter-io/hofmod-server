@@ -1,10 +1,8 @@
 package auth
 
 import (
-	"fmt"
 	"net/http"
 
-	"github.com/kr/pretty"
 	"github.com/labstack/echo/v4"
 
 	"{{ .ModuleImport }}/dm"
@@ -15,7 +13,7 @@ import (
 
 var (
 
-	authMiddleware = []echo.MiddlewareFunc {
+	AuthMiddleware = []echo.MiddlewareFunc {
 		{{ if $AUTH.Apikey }}
 		apikeyMiddleware,
 		{{ end }}
@@ -24,23 +22,65 @@ var (
 		{{ end }}
 		{{ if $AUTH.JWT }}
 		{{ end }}
-
-		// must be last, this checks for a 'user' on the context
-		authChecker,
 	}
 
-	authChecker echo.MiddlewareFunc = func (next echo.HandlerFunc) echo.HandlerFunc {
+	AdminChecker echo.MiddlewareFunc = MakeRoleChecker([]string{"super", "admin"})
+
+)
+
+func MakeRoleChecker(roles []string) echo.MiddlewareFunc {
+	return func (next echo.HandlerFunc) echo.HandlerFunc {
 		return func(c echo.Context) error {
-			user := c.Get("user").(*dm.User)
-			if user == nil {
+			U := c.Get("user")
+			if U == nil {
 				return c.String(http.StatusUnauthorized, "401 - Unauthorized")
 			}
+
+			user := U.(*dm.User)
+
 			if !user.Active {
 				return c.String(http.StatusUnauthorized, "401 - Unauthorized, your account is not active and needs to be confirmed")
 			}
-			fmt.Printf("auth user:\n%# v\n", pretty.Formatter(user))
+
+			// check roles
+			found := false
+			for _, R := range roles {
+				if user.Role == R {
+					found = true
+				}
+			}
+			if !found {
+				return c.String(http.StatusUnauthorized, "401 - Unauthorized")
+			}
 			return next(c)
 		}
 	}
+}
 
-)
+// Helper for checking auth
+func AuthChecker(c echo.Context, roles []string) (*dm.User, error) {
+	U := c.Get("user")
+	if U == nil {
+		return nil, c.String(http.StatusUnauthorized, "401 - Unauthorized")
+	}
+
+	user := U.(*dm.User)
+
+	if !user.Active {
+		return user, c.String(http.StatusUnauthorized, "401 - Unauthorized, your account is not active and needs to be confirmed")
+	}
+
+	if len(roles) > 0 {
+		found := false
+		for _, R := range roles {
+			if user.Role == R {
+				found = true
+			}
+		}
+		if !found {
+			return nil, c.String(http.StatusUnauthorized, "401 - Unauthorized")
+		}
+	}
+
+	return user, nil
+}

@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/google/uuid"
 	"github.com/labstack/echo/v4"
 	"gorm.io/gorm"
 
@@ -25,14 +26,21 @@ func apikeyMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
 		if key == "" {
 			return next(c)
 		}
+		_, err := uuid.Parse(key)
+		if err != nil {
+			next(c)
+		}
 
 		user := &dm.User{}
 		// apikey := &dm.Apikey{}
-		err := db.DB.Table("users").Joins("left join apikeys on users.id = apikeys.user_id").Where("apikeys.key = ?", key).First(user).Error
-		if err != nil && !errors.Is(err, gorm.ErrRecordNotFound) {
+		err = db.DB.Table("users").Joins("left join apikeys on users.id = apikeys.user_id").Where("apikeys.key = ?", key).First(user).Error
+		if err != nil {
+			if !errors.Is(err, gorm.ErrRecordNotFound) {
+				c.Logger().Error(err)
+			}
 			return next(c)
 		}
-		if errors.Is(err, gorm.ErrRecordNotFound) || user.Email == "" {
+		if user.Email == "" {
 			return next(c)
 		}
 
@@ -45,8 +53,8 @@ func apikeyMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
 	}
 }
 
-func apikeyRoutes(anon, authed *echo.Group) {
-	g := authed.Group("/apikey")
+func apikeyRoutes(G *echo.Group) {
+	g := G.Group("/apikey")
 
 	g.GET("/", listApikey)
 	g.POST("/", createApikey)

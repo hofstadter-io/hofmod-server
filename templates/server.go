@@ -15,35 +15,6 @@ import (
 	"{{ .ModuleImport }}/server/db"
 )
 
-func PrintRoutes() {
-	var err error
-
-	// create echo server
-	e := echo.New()
-
-	err = setupLogging(e)
-	if err != nil {
-		panic(err)
-	}
-
-	// add middleware
-	err = setupMiddleware(e)
-	if err != nil {
-		panic(err)
-	}
-
-	// setup router
-	err = setupRouter(e)
-	if err != nil {
-		panic(err)
-	}
-
-	for _, route := range e.Routes() {
-		fmt.Println(*route)
-	}
-
-}
-
 func Run() {
 	var err error
 

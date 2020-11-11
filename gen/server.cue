@@ -56,9 +56,9 @@ import (
   All: [
    [ for _, F in OnceFiles { F } ],
    [ for _, F in Models { F } ],
-   [ for _, F in L1_RestFiles { F } ],
-   [ for _, F in L2_RestFiles { F } ],
-   [ for _, F in L3_RestFiles { F } ],
+   [ for _, F in L1_RouteFiles { F } ],
+   [ for _, F in L2_RouteFiles { F } ],
+   [ for _, F in L3_RouteFiles { F } ],
   ]
 
   // Files that are not repeatedly used, they are generated once for the whole CLI
@@ -142,45 +142,51 @@ import (
     }
   ]
 
-	// Rest Routes
-  L1_RestFiles: [...hof.#HofGeneratorFile] & list.FlattenN([[
-    for _, R in Server.Rest.Routes
+	// Routes
+  L1_RouteFiles: [...hof.#HofGeneratorFile] & list.FlattenN([[
+    for _, R in Server.Routes
     {
       In: {
         ROUTE: {
           R
-          PackageName: "rest"
+          PackageName: "routes"
         }
       }
-      TemplateName: "rest/route.go"
+      TemplateName: "route.go"
       Filepath: "\(OutdirConfig.ServerOutdir)/routes/\(In.ROUTE.Name).go"
 		}
 	]], 1)
 
-  L2_RestRoutes: [ for P in L1_RestFiles if len(P.In.ROUTE.Routes) > 0 {
+  L2_RouteList: [ for P in L1_RouteFiles if len(P.In.ROUTE.Routes) > 0 {
     [ for R in P.In.ROUTE.Routes { R,  Parent: { Name: P.In.ROUTE.Name } }]
   }]
-  L2_RestFiles: [...hof.#HofGeneratorFile] & [ // List comprehension
-    for _, R in list.FlattenN(L2_RestRoutes, 1)
+  L2_RouteFiles: [...hof.#HofGeneratorFile] & [ // List comprehension
+    for _, R in list.FlattenN(L2_RouteList, 1)
     {
       In: {
-        REST: R
+				ROUTE: {
+					R
+          PackageName: R.Parent.Name
+				}
       }
-      TemplateName: "rest/route.go"
+      TemplateName: "route.go"
       Filepath: "\(OutdirConfig.ServerOutdir)/routes/\(R.Parent.Name)/\(R.Name).go"
     }
   ]
 
-  L3_RestRoutes: [ for P in L2_RestFiles if len(P.In.ROUTE.Routes) > 0 {
+  L3_RouteList: [ for P in L2_RouteFiles if len(P.In.ROUTE.Routes) > 0 {
     [ for R in P.In.ROUTE.Routes { R,  Parent: { Name: P.In.ROUTE.Name, Parent: P.In.ROUTE.Parent } }]
   }]
-  L3_RestFiles: [...hof.#HofGeneratorFile] & [ // List comprehension
-    for _, R in list.FlattenN(L3_RestRoutes, 1)
+  L3_RouteFiles: [...hof.#HofGeneratorFile] & [ // List comprehension
+    for _, R in list.FlattenN(L3_RouteList, 1)
     {
       In: {
-        REST: R
+				ROUTE: {
+					R
+          PackageName: R.Parent.Name
+				}
       }
-      TemplateName: "rest/route.go"
+      TemplateName: "route.go"
       Filepath: "\(OutdirConfig.ServerOutdir)/routes/\(R.Parent.Parent.Name)/\(R.Parent.Name)/\(R.Name).go"
     }
   ]

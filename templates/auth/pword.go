@@ -27,10 +27,13 @@ func passwordMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
 		// lookup user
 		var user *dm.User
 		err := db.DB.Table("users").Where("email = ?", email).First(user).Error
-		if err != nil && !errors.Is(err, gorm.ErrRecordNotFound) {
+		if err != nil {
+			if !errors.Is(err, gorm.ErrRecordNotFound) {
+				c.Logger().Error(err)
+			}
 			return next(c)
 		}
-		if errors.Is(err, gorm.ErrRecordNotFound) || user == nil {
+		if user == nil {
 			return next(c)
 		}
 
@@ -48,10 +51,10 @@ func passwordMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
 	}
 }
 
-func passwordRoutes(anon, authed *echo.Group) {
-	anonG := anon.Group("/password")
-	anonG.GET("/reset", passwordResetRequest)
-	anonG.POST("/reset", passwordResetDoReset)
+func passwordRoutes(G *echo.Group) {
+	g := G.Group("/password")
+	g.GET("/reset", passwordResetRequest)
+	g.POST("/reset", passwordResetDoReset)
 }
 
 func passwordResetRequest(c echo.Context) (err error) {

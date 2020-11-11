@@ -11,19 +11,17 @@ import (
 func Routes(e *echo.Echo) {
 	// create auth groups
 	g := e.Group("/auth")
-	anon := g.Group("")
-	authed := g.Group("", authMiddleware...)
 
 	// test route
-	authed.GET("/test", testAuth)
+	g.GET("/test", testAuth)
 
 	{{ if $AUTH.Apikey }}
-	apikeyRoutes(anon, authed)
+	apikeyRoutes(g)
 	{{ end }}
 
 	{{ if $AUTH.Password }}
 	// Password routes
-	passwordRoutes(anon, authed)
+	passwordRoutes(g)
 	{{ end }}
 
 	{{ if $AUTH.JWT }}

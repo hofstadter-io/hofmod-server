@@ -22,4 +22,22 @@ import (
 	DatabaseConfig: {
 		type: "postgres"
 	}
+
+	Routes: [{
+		Name: "Echo"
+		Path: "/echo"
+		Method: "GET"
+	},{
+		Name: "Hello"
+		Path: "/hello"
+		Method: "GET"
+		Roles: ["super", "admin", "user"]
+
+		Routes: [{
+			Name: "World"
+			Path: "/world"
+			Method: "GET"
+			Roles: ["super", "admin", "user"]
+		}]
+	}]
 }
