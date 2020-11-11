@@ -12,13 +12,49 @@ import (
 	"github.com/labstack/gommon/log"
 
 	"{{ .ModuleImport }}/server/config"
+	"{{ .ModuleImport }}/server/db"
 )
 
-func Run() {
+func PrintRoutes() {
 	var err error
 
 	// create echo server
 	e := echo.New()
+
+	err = setupLogging(e)
+	if err != nil {
+		panic(err)
+	}
+
+	// add middleware
+	err = setupMiddleware(e)
+	if err != nil {
+		panic(err)
+	}
+
+	// setup router
+	err = setupRouter(e)
+	if err != nil {
+		panic(err)
+	}
+
+	for _, route := range e.Routes() {
+		fmt.Println(*route)
+	}
+
+}
+
+func Run() {
+	var err error
+
+	err = db.OpenPostgres()
+	if err != nil {
+		panic(err)
+	}
+
+	// create echo server
+	e := echo.New()
+	e.HideBanner = true
 
 	err = setupLogging(e)
 	if err != nil {

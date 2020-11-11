@@ -9,6 +9,8 @@ require (
 	github.com/hofstadter-io/yagu v0.0.3 // indirect
 	github.com/jackc/pgx/v4 v4.9.0
 	github.com/kirsle/configdir v0.0.0-20170128060238-e45d2f54772f
+	github.com/kr/pretty v0.2.0
+	github.com/labstack/echo v3.3.10+incompatible
 	github.com/labstack/echo-contrib v0.9.0
 	github.com/labstack/echo/v4 v4.1.17
 	github.com/labstack/gommon v0.3.0

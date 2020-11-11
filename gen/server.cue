@@ -80,6 +80,22 @@ import (
       Filepath: "\(OutdirConfig.ServerOutdir)/middleware.go"
     },
 		{
+			TemplateName: "auth/middleware.go"
+			Filepath: "\(OutdirConfig.ServerOutdir)/auth/middleware.go"
+		},
+		{
+			TemplateName: "auth/routes.go"
+			Filepath: "\(OutdirConfig.ServerOutdir)/auth/routes.go"
+		},
+		{
+			TemplateName: "auth/pword.go"
+			Filepath: "\(OutdirConfig.ServerOutdir)/auth/pword.go"
+		},
+		{
+			TemplateName: "auth/apikey.go"
+			Filepath: "\(OutdirConfig.ServerOutdir)/auth/apikey.go"
+		},
+		{
 			TemplateName: "db/common.go"
 			Filepath: "\(OutdirConfig.ServerOutdir)/db/common.go"
 		},

@@ -3,8 +3,6 @@ package db
 {{ $name := .SERVER.serverName }}
 
 import (
-  // "database/sql"
-
   _ "github.com/jackc/pgx/v4/stdlib"
   "gorm.io/driver/postgres"
   "gorm.io/gorm"

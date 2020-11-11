@@ -142,6 +142,7 @@ func clearData() (err error) {
 
 func runSeeds(seeds cue.Value) (err error) {
 
+	// TODO, introspect fields looking for bcrypt
 	{{ range $i, $model := .MODELS.Builtin.MigrateOrder -}}
 	{{ if eq $model.ModelName "User" }}
 	err = runSeed(seeds, &dm.{{ $model.ModelName }}{}, "{{ $model.ModelName }}", []string{"password"})
@@ -207,7 +208,7 @@ func runSeed(seeds cue.Value, modelType interface{}, modelName string, encryptFi
 				if err != nil {
 					return err
 				}
-				v[F] = P
+				v[F] = string(P)
 				data[i] = v
 			}
 		}

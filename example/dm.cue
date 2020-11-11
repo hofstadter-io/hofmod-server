@@ -43,7 +43,7 @@ import (
 
 #User: hof.#Model & {
 	Relations: {
-		Todo: {
+		Todos: {
 			relation: "HasMany"
 			type: "Todo"
 			foreignKey: "UserID"

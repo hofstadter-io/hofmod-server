@@ -37,7 +37,7 @@ make dev-db-start
 ./server db migrate
 
 # Seed the database
-./server db seed seeds/all.cue
+./server db seed
 ```
 
 ##### Run the server
@@ -53,4 +53,7 @@ make dev-db-start
 curl localhost:1323          // not found  (404)
 curl localhost:1323/alive    // no content (200)
 curl localhost:1323/metrics  // prometheus metrics
+
+# test auth
+curl -u 'admin@example.com:admin-pass' localhost:1323/auth/test  // OK (200)
 ```

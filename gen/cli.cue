@@ -66,6 +66,18 @@ import (
 			"""
 			
 		},{
+			Name: "routes"
+
+			Short: "print the server routes"
+			Long: Short
+
+			Imports: [{ Path: path.Clean("\(Module)/\(Outdir)/server"), As: "server"}]
+
+			Body: """
+			server.PrintRoutes()
+			"""
+			
+		},{
 			Name: "config"
 
 			Short: "view server config values"

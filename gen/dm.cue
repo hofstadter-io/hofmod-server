@@ -47,6 +47,8 @@ import (
 					if (Server.AuthConfig.Authentication.Password & true) != _|_ {
 						password: hof.#Password
 					}
+					role: hof.#String
+					active: hof.#Bool
 				}
 			}
 		}
@@ -84,7 +86,7 @@ import (
 				SoftDelete: true
 				Fields: {
 					name: hof.#String
-					key:  hof.#UUID
+					key:  hof.#UUID & { GormTag: "gorm:\"type:uuid;index;default:gen_random_uuid()\"" }
 				}
 				Relations: {
 					User: {
@@ -96,7 +98,7 @@ import (
 			}
 			User: {
 				Relations: {
-					Apikey: {
+					Apikeys: {
 						relation: "HasMany"
 						type: "Apikey"
 						foreignKey: "UserID"
