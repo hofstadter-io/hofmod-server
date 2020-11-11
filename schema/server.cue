@@ -74,6 +74,11 @@ import (
 	ReqBind?: {...}
 	RespBind?: {...}
 
+	Imports: [...string] | *[]
+	Body: string | *"""
+	c.String(http.StatusNotImplemented, "Not Implemented")
+	"""
+
 	Routes: [...#Route]
 }
 

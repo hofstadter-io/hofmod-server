@@ -1,8 +1,9 @@
 package {{ .ROUTE.PackageName }}
 
 import (
-	"github.com/labstack/echo/v4"
+	"net/http"
 
+	"github.com/labstack/echo/v4"
 
 	{{ if .ROUTE.Routes -}}
 	{{ if.ROUTE.Parent.Parent }}
@@ -12,6 +13,10 @@ import (
 	{{ else }}
 	"{{ .ModuleImport }}/server/routes/{{ .ROUTE.Name }}"
 	{{ end }}
+	{{ end }}
+
+	{{ range $I := .ROUTE.Imports }}
+	"{{ $I }}"
 	{{ end }}
 )
 

@@ -28,7 +28,7 @@ func apikeyMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
 		}
 		_, err := uuid.Parse(key)
 		if err != nil {
-			next(c)
+			return next(c)
 		}
 
 		user := &dm.User{}

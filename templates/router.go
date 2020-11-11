@@ -30,7 +30,15 @@ func setupRouter(e *echo.Echo) error {
 	Routes := e.Group("")
 
 	{{ range $ROUTE := $SERVER.Routes -}}
-	Routes.{{$ROUTE.Method}}("{{ $ROUTE.Path }}{{ range $PATH := $ROUTE.Params }}/:{{$PATH}}{{ end }}", routes.{{$ROUTE.Name}}Handler)
+	Routes.{{$ROUTE.Method}}(
+		"{{ $ROUTE.Path }}{{ range $PATH := $ROUTE.Params }}/:{{$PATH}}{{ end }}",
+		routes.{{$ROUTE.Name}}Handler,
+		{{ if $ROUTE.Roles }}auth.MakeRoleChecker([]string{
+			{{ range $ROUTE.Roles }} "{{.}}",
+			{{ end }}
+		}),
+		{{ end }}
+	)
 	{{ if $ROUTE.Routes -}}
 	routes.{{ $ROUTE.Name }}Subroutes(Routes)
 	{{ end }}

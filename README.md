@@ -45,15 +45,33 @@ make dev-db-start
 ```sh
 # Run the example server in dev mode
 ./server run
+
+# Print server config and secrets
+./server config
+
+# Print server routes
+./server routes
 ```
 
 ##### Call the server
 
 ```sh
-curl localhost:1323          // not found  (404)
-curl localhost:1323/alive    // no content (200)
-curl localhost:1323/metrics  // prometheus metrics
+# bad route(s)
+curl localhost:1323              // not found  (404)
+
+# unauth'd sample route
+curl localhost:1323/echo?msg=... // msg...     (200)
+curl localhost:1323/echo/msg     // msg...     (200)
 
 # test auth
 curl -u 'admin@example.com:admin-pass' localhost:1323/auth/test  // OK (200)
+curl -h 'apikey: 953e7caf-1fa6-4558-a693-4118fce9615e' localhost:1323/auth/test  // OK (200)
+
+# alive & metrics
+curl <auth> localhost:1323/internal/alive    // no content (200)
+curl <auth> localhost:1323/internal/metrics  // prometheus metrics
+
+# sample auth'd routes
+curl <auth> localhost:1323/hello                    // hello <name> (200)
+curl <auth> localhost:1323/hello/world[?msg=...]    // hello <name or msg> (200)
 ```
