@@ -60,4 +60,4 @@
 
 {{ end }}
 {{ if .Doc }}// {{ .Doc }}{{end}}
-{{ $name }} {{ $type }} {{ if .GormTag }}`{{ .GormTag }}`{{ end }}
+{{ $name }} {{ $type }} `json:"{{.fieldName}}" {{ if .GormTag }}{{ .GormTag }}{{ end }}`

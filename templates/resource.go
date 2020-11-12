@@ -1,15 +1,22 @@
 package resources
 
+{{ $RESOURCE := .RESOURCE }}
+
 import (
+	"errors"
 	"net/http"
 
-	// "gorm.io/gorm"
 	"github.com/labstack/echo/v4"
+	"gorm.io/gorm"
 
+	{{ range $I := $RESOURCE.Imports -}}
+	"{{ $I }}"
+	{{ end }}
+
+	"{{ .ModuleImport }}/dm"
 	"{{ .ModuleImport }}/server/auth"
+	"{{ .ModuleImport }}/server/db"
 )
-
-{{ $RESOURCE := .RESOURCE }}
 
 func {{ $RESOURCE.Name }}Routes(G *echo.Group) {
 	g := G.Group("{{ $RESOURCE.Path }}")

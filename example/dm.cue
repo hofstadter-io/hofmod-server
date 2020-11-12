@@ -36,7 +36,7 @@ import (
 	Relations: {
 		User: {
 			relation: "BelongsTo"
-			type: "User"
+			type: "uuid.UUID"
 			GormTag: "gorm:\"type:uuid;foreignKey:UserID\""
 		}
 	}

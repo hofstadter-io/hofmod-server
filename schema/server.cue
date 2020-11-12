@@ -87,6 +87,11 @@ import (
 	Name: string | *"\(Model.Name)"
 	Path: string | *"/\(Model.modelName)"
 
+	Imports: [
+		"strconv",
+		"github.com/google/uuid",
+	]
+
 	Routes: [...#Route]
 
 	// TODO, HUGE slowdown
@@ -104,12 +109,8 @@ import (
 			Path: ""
 			Method: "POST"
 			ReqBind: Model
-			RespBind: Model
 			Roles: ["super", "admin", "user"]
-			Body: string | *"""
-			c.Logger().Warn("Creating \(Model.Name) ")
-			c.String(http.StatusNotImplemented, "Not Implemented")
-			"""
+			Body: string | *(#DefaultCreateOwnBody & { M: Model }).Body
 		}
 		Update: {
 			Name: "Update"
@@ -117,12 +118,8 @@ import (
 			Method: "PATCH"
 			Params: ["id"]
 			ReqBind: Model
-			RespBind: Model
 			Roles: ["super", "admin", "user"]
-			Body: string | *"""
-			c.Logger().Warn("Updating \(Model.Name) ", id)
-			c.String(http.StatusNotImplemented, "Not Implemented")
-			"""
+			Body: string | *(#DefaultUpdateOwnBody & { M: Model }).Body
 		}
 		Delete: {
 			Name: "Delete"
@@ -130,33 +127,23 @@ import (
 			Method: "DELETE"
 			Params: ["id"]
 			Roles: ["super", "admin", "user"]
-			Body: string | *"""
-			c.Logger().Warn("Deleting \(Model.Name) ", id)
-			c.String(http.StatusNotImplemented, "Not Implemented")
-			"""
+			Body: string | *(#DefaultDeleteOwnBody & { M: Model }).Body
 		}
-		List: {
-			Name: "List"
+		ListOwn: {
+			Name: "ListOwn"
 			Path: ""
 			Method: "GET"
-			RespBind: Model
 			Roles: ["super", "admin", "user"]
-			Body: string | *"""
-			c.Logger().Warn("Listing \(Model.Name) ")
-			c.String(http.StatusNotImplemented, "Not Implemented")
-			"""
+			Query: ["limit", "offset"]
+			Body: string | *(#DefaultListOwnBody & { M: Model }).Body
 		}
-		Get: {
-			Name: "Get"
+		GetOwn: {
+			Name: "GetOwn"
 			Path: ""
 			Method: "GET"
 			Params: ["id"]
-			RespBind: Model
 			Roles: ["super", "admin", "user"]
-			Body: string | *"""
-			c.Logger().Warn("Getting \(Model.Name) ", id)
-			c.String(http.StatusNotImplemented, "Not Implemented")
-			"""
+			Body: string | *(#DefaultGetOwnBody & { M: Model }).Body
 		}
 	}
 
