@@ -112,6 +112,10 @@ import (
 			TemplateName: "db/postgres.go"
 			Filepath: "\(OutdirConfig.ServerOutdir)/db/postgres.go"
 		},
+		{
+			TemplateName: "mailer/mailgun.go"
+			Filepath: "\(Outdir)/mailer/mailgun.go"
+		},
   ]
 
 	// No actual files here

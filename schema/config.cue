@@ -16,6 +16,14 @@ package schema
 		format?: string
 	}
 
+	//mailer: {
+		//senders: {
+			//accounts: string
+			//billing: string
+			//support: string
+		//}
+	//}
+
 	...
 }
 
@@ -39,9 +47,11 @@ package schema
 	}
 
 	mailer: {
-		provider: string | *"mailgun"
-		domain: string
-		apikey: string
+		mailgun?: {
+			domain: string
+			secret: string
+			pubkey: string
+		}
 	}
 
 	...

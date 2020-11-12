@@ -1,6 +1,7 @@
 package auth
 
 import (
+	"context"
 	"errors"
 	"fmt"
 	"net/http"
@@ -13,6 +14,7 @@ import (
 	"gorm.io/gorm"
 
 	"{{ .ModuleImport }}/dm"
+	"{{ .ModuleImport }}/mailer"
 	"{{ .ModuleImport }}/server/config"
 	"{{ .ModuleImport }}/server/db"
 )
@@ -88,8 +90,25 @@ func passwordResetRequest(c echo.Context) (err error) {
 			return err
 		}
 
-		// TODO, remove this once the mailer is implemented
-		return c.String(http.StatusOK, fmt.Sprintf("http://localhost:1323/auth/password/reset?token=%s&password=", tokenString))
+		sender := "Accounts Service - Example App <accounts@hofstadter.io>"
+    subject := "Password Reset Request"
+		body := fmt.Sprintf(passwordResetEmail, tokenString)
+    recipient := email
+
+    // The message object allows you to add attachments and Bcc recipients
+    message := mailer.MG.NewMessage(sender, subject, body, recipient)
+
+    // Send the message with a 10 second timeout
+    ctx, cancel := context.WithTimeout(context.Background(), time.Second*10)
+    defer cancel()
+    resp, id, err := mailer.MG.Send(ctx, message)
+
+    if err != nil {
+        c.Logger().Error(err)
+				return err
+    }
+
+    c.Logger().Debugf("ID: %s Resp: %s", id, resp)
 	}
 
 	// we want to return the same message regardless if the email exists or not
@@ -156,3 +175,10 @@ func passwordResetDoReset(c echo.Context) (err error) {
 
 	return c.String(http.StatusOK, "Password Reset")
 }
+
+const passwordResetEmail = `Hello from hofmod-server Example App!
+
+Paste the following link in your browser and <b>ADD A PASSWORD</b> to the end.
+
+http://localhost:1323/auth/password/reset?token=%s&password=
+`

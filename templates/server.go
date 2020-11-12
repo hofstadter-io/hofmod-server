@@ -11,6 +11,7 @@ import (
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/gommon/log"
 
+	"{{ .ModuleImport }}/mailer"
 	"{{ .ModuleImport }}/server/config"
 	"{{ .ModuleImport }}/server/db"
 )
@@ -21,6 +22,11 @@ func Run() {
 	_, err = config.Config.Lookup("secret").String()
 	if err != nil {
 		panic("app secret not set: " + err.Error())
+	}
+
+	err = mailer.InitMailgun()
+	if err != nil {
+		panic(err)
 	}
 
 	err = db.OpenPostgres()

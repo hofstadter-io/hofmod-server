@@ -4,7 +4,7 @@ User: {
 	super: {
 		id: "b3950dbc-a4a1-4a4a-add4-0941d5a0bb81"
 		name: "super"
-		email: "super@example.com"
+		email: "tony@hofstadter.io"
 		password: "sueper-pass"
 		role: "super"
 		active: true
