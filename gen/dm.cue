@@ -56,6 +56,7 @@ import (
 					}
 					role: hof.#String
 					active: hof.#Bool
+					disabled: hof.#Bool
 				}
 			}
 		}

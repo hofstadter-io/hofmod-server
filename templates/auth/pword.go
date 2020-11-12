@@ -81,6 +81,7 @@ func passwordResetRequest(c echo.Context) (err error) {
 		secret, _ := config.Config.Lookup("secret").String()
 
 		token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
+			"purpose": "password",
 			"email": email,
 			"expire": time.Now().Add(time.Hour * 24).Format(time.RFC3339),
 		})
@@ -108,7 +109,7 @@ func passwordResetRequest(c echo.Context) (err error) {
 				return err
     }
 
-    c.Logger().Debugf("ID: %s Resp: %s", id, resp)
+    c.Logger().Debugf(" Pword Reset ID: %s Resp: %s", id, resp)
 	}
 
 	// we want to return the same message regardless if the email exists or not
@@ -142,6 +143,10 @@ func passwordResetDoReset(c echo.Context) (err error) {
 
 	// if the token is valid, try to update the password
 	if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
+		purpose := claims["purpose"].(string)
+		if purpose != "password" {
+			return c.String(http.StatusBadRequest, "invalid token")
+		}
 
 		// check the expiration time
 		expStr := claims["expire"].(string)
@@ -151,7 +156,7 @@ func passwordResetDoReset(c echo.Context) (err error) {
 			return err
 		}
 		if time.Now().After(expire) {
-			return c.String(http.StatusBadRequest, "reset token has expired")
+			return c.String(http.StatusBadRequest, "invalid token")
 		}
 
 		// encrypt the password
@@ -175,10 +180,3 @@ func passwordResetDoReset(c echo.Context) (err error) {
 
 	return c.String(http.StatusOK, "Password Reset")
 }
-
-const passwordResetEmail = `Hello from hofmod-server Example App!
-
-Paste the following link in your browser and <b>ADD A PASSWORD</b> to the end.
-
-http://localhost:1323/auth/password/reset?token=%s&password=
-`

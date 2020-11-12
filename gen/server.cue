@@ -97,6 +97,14 @@ import (
 			Filepath: "\(OutdirConfig.ServerOutdir)/auth/apikey.go"
 		},
 		{
+			TemplateName: "auth/accts.go"
+			Filepath: "\(OutdirConfig.ServerOutdir)/auth/accts.go"
+		},
+		{
+			TemplateName: "auth/emails.go"
+			Filepath: "\(OutdirConfig.ServerOutdir)/auth/emails.go"
+		},
+		{
 			TemplateName: "db/common.go"
 			Filepath: "\(OutdirConfig.ServerOutdir)/db/common.go"
 		},

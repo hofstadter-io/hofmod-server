@@ -9,6 +9,11 @@ import (
 {{ $AUTH := .SERVER.AuthConfig.Authentication }}
 
 func Routes(e *echo.Echo) {
+	// account routes
+	e.GET("/acct/register", AccountRegisterHandler)
+	e.GET("/acct/confirm", AccountConfirmHandler)
+	e.GET("/acct/resend-confirm", AccountResendConfirmHandler)
+
 	// create auth groups
 	g := e.Group("/auth")
 
@@ -22,6 +27,7 @@ func Routes(e *echo.Echo) {
 	)
 
 	{{ if $AUTH.Apikey }}
+	// Apikey routes
 	apikeyRoutes(g)
 	{{ end }}
 
@@ -32,6 +38,7 @@ func Routes(e *echo.Echo) {
 
 	{{ if $AUTH.JWT }}
 	// JWT routes
+	// TODO
 	{{ end }}
 
 }

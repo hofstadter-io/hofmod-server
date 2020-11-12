@@ -38,6 +38,10 @@ func MakeRoleChecker(roles []string) echo.MiddlewareFunc {
 
 			user := U.(*dm.User)
 
+			if user.Disabled {
+				return c.String(http.StatusUnauthorized, "401 - Unauthorized, your account has been disabled, please contact support")
+			}
+
 			if !user.Active {
 				return c.String(http.StatusUnauthorized, "401 - Unauthorized, your account is not active and needs to be confirmed")
 			}
