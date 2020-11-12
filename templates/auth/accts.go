@@ -32,9 +32,8 @@ func AccountRegisterHandler(c echo.Context) (err error) {
 	}
 
 	p := c.QueryParam("password")
-	// TODO, validate password
-	if len(p) < 8 {
-		return c.String(http.StatusBadRequest, "invalid password, must be at least 8 charactors long")
+	if err = checkPasswordEntropy(p); err != nil {
+		return c.String(http.StatusBadRequest, "insufficient password: " + err.Error())
 	}
 
 	// encrypt the password

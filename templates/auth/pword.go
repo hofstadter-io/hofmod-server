@@ -7,9 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"cuelang.org/go/cue"
 	"github.com/dgrijalva/jwt-go/v4"
 	"github.com/google/uuid"
 	"github.com/labstack/echo/v4"
+	passwordvalidator "github.com/lane-c-wagner/go-password-validator"
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
 
@@ -129,6 +131,10 @@ func passwordResetDoReset(c echo.Context) (err error) {
 		return c.String(http.StatusBadRequest, "missing password query param")
 	}
 
+	if err = checkPasswordEntropy(p); err != nil {
+		return c.String(http.StatusBadRequest, "insufficient password: " + err.Error())
+	}
+
 	// parse the token
 	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
 		// Don't forget to validate the alg is what you expect:
@@ -179,4 +185,10 @@ func passwordResetDoReset(c echo.Context) (err error) {
 	}
 
 	return c.String(http.StatusOK, "Password Reset")
+}
+
+func checkPasswordEntropy(p string) (err error) {
+	ui, _ := config.Config.LookupPath(cue.ParsePath("auth.passwordEntropy")).Uint64()
+
+	return passwordvalidator.Validate(p, float64(ui))
 }

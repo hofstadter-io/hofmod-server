@@ -6,4 +6,8 @@ Config: {
 		level: "debug"
 		// format: "..." // https://echo.labstack.com/middleware/logger
 	}
+
+	auth: {
+		passwordEntropy: uint | *60
+	}
 }
