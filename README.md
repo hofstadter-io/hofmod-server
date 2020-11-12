@@ -3,6 +3,8 @@
 A Golang server generator where you can write
 custom code in the output while evolving the design.
 
+Built with [hof](https://github.com/hofstadter-io/hof) - the high code generator framework.
+
 ### Features
 
 See the [schema](./schema) for designing details,
@@ -42,7 +44,7 @@ It uses
 ##### Generate and build the server
 
 ```sh
-hof mod vendor cue
+hof mod vendor
 make gen
 make build
 ```
