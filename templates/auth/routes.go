@@ -13,7 +13,13 @@ func Routes(e *echo.Echo) {
 	g := e.Group("/auth")
 
 	// test route
-	g.GET("/test", testAuth)
+	g.GET("/test", testAuth,
+		MakeRoleChecker([]string{
+			"super",
+			"admin",
+			"user",
+		}),
+	)
 
 	{{ if $AUTH.Apikey }}
 	apikeyRoutes(g)

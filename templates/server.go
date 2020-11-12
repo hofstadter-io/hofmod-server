@@ -18,6 +18,11 @@ import (
 func Run() {
 	var err error
 
+	_, err = config.Config.Lookup("secret").String()
+	if err != nil {
+		panic("app secret not set: " + err.Error())
+	}
+
 	err = db.OpenPostgres()
 	if err != nil {
 		panic(err)

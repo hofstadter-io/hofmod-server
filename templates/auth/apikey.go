@@ -32,7 +32,6 @@ func apikeyMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
 		}
 
 		user := &dm.User{}
-		// apikey := &dm.Apikey{}
 		err = db.DB.Table("users").Joins("left join apikeys on users.id = apikeys.user_id").Where("apikeys.key = ?", key).First(user).Error
 		if err != nil {
 			if !errors.Is(err, gorm.ErrRecordNotFound) {
