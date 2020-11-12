@@ -1,12 +1,35 @@
 # hofmod-rest
 
-A Golang server generator
+A Golang server generator where you can write
+custom code in the output while evolving the design.
 
-Components:
+### Features
 
-- Echo server framework
-- GORM for database work
+See the [schema](./schema) for designing details,
+you can customize just about everything.
 
+##### Advanced REST server
+
+- Entity framework (builtin users and groups)
+- Password and APIKey authentication
+- Role base authorization
+- Account management handlers (register, confirm, disable)
+- Email system and customizable templates
+- Extensible route definitions
+- Embedded static resources
+- Setup for separate config & sercrets across multiple environments
+- Kubernetes ready (prometheus and k8s manifests)
+- Testing for endpoint and user sequences
+- Builtin CLI with many helpful commands
+- Goreleaser for simplified releases
+
+##### Extensible data model
+
+- Automated schema generation and incremental migrations
+- Server sub-commands for database migrations seeding
+- Extensible data model for defining resources
+- Default resource CRUD handlers, customizable
+- Define your own defaults for resources
 
 ### Running the example
 
@@ -28,7 +51,7 @@ make build
 
 ```sh
 # Starts Postgres 13 in docker
-make dev-db-start
+make db-up
 
 # Check db connection
 ./server db test
@@ -38,6 +61,15 @@ make dev-db-start
 
 # Seed the database
 ./server db seed
+
+# Run the PSQL repl
+make psql
+
+# Stop the database
+make db-down
+
+# Destroy the database
+make db-nuke
 ```
 
 ##### Run the server
