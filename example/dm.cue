@@ -2,52 +2,60 @@ package example
 
 import (
 	hof "github.com/hofstadter-io/hof/schema"
+
+  srv_s "github.com/hofstadter-io/hofmod-server/schema"
 )
 
 #Datamodel: hof.#Datamodel & {
-	Name: "Example"
+	Name: "ServerDatamodel"
 	Modelsets: {
-		Example: hof.#Modelset & {
-			MigrateOrder: [
-				Models.Todo,
-			]
-			Models: {
-				Todo: #Todo
+		Custom: #CustomModels
+		Builtin: #BuiltinModels
+	}
+}
+
+#CustomModels: hof.#Modelset & {
+	MigrateOrder: [
+		Models.Todo,
+	]
+	Models: {
+		Todo: hof.#Model & {
+			Name: "Todo"
+			ORM: true
+			SoftDelete: true
+			Fields: {
+				name:     hof.#String & { unique: true }
+				content:  hof.#String & { length: 2048 }
+				complete: hof.#Bool
+			}
+			Relations: {
+				User: {
+					relation: "BelongsTo"
+					type: "uuid.UUID"
+					GormTag: "gorm:\"type:uuid;foreignKey:UserID\""
+				}
 			}
 		}
-		Builtin: {
-			Models: {
-				User: #User
-			}
-		}
+
 	}
 	...
 }
 
-#Todo: hof.#Model & {
-	Name: "Todo"
-	ORM: true
-	SoftDelete: true
-	Fields: {
-		name:     hof.#String & { unique: true }
-		content:  hof.#String & { length: 2048 }
-		complete: hof.#Bool
+#BuiltinModels: srv_s.#BuiltinModels & {
+	Server: {
+		AuthConfig: #Server.AuthConfig
+		EntityConfig: #Server.EntityConfig
 	}
-	Relations: {
-		User: {
-			relation: "BelongsTo"
-			type: "uuid.UUID"
-			GormTag: "gorm:\"type:uuid;foreignKey:UserID\""
+	Models: {
+		User: hof.#Model & {
+			Relations: {
+				Todos: {
+					relation: "HasMany"
+					type: "Todo"
+					foreignKey: "UserID"
+				}
+			}
 		}
-	}
-}
-
-#User: hof.#Model & {
-	Relations: {
-		Todos: {
-			relation: "HasMany"
-			type: "Todo"
-			foreignKey: "UserID"
-		}
+		...
 	}
 }

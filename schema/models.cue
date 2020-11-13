@@ -1,20 +1,15 @@
 package schema
 
 import (
-	"list"
-
   hof "github.com/hofstadter-io/hof/schema"
 )
 
 #BuiltinModels: hof.#Modelset & {
 	Name: "Builtin"
-	Server: #Server
-	_ServerFields: ["EntityConfig", "AuthConfig"]
-	_Server: { for k,v in Server {
-		if list.Contains(_ServerFields, k) {
-			"\(k)": v
-		}
-	} }
+	Server: {
+		AuthConfig: _
+		EntityConfig: _
+	}
 
 	MigrateOrder: [
 		Models.User,
@@ -23,7 +18,7 @@ import (
 	]
 	Models: {
 
-		if (_Server.EntityConfig.users & true) != _|_ {
+		if (Server.EntityConfig.users & true) != _|_ {
 			User: {
 				ORM: true
 				SoftDelete: true
@@ -33,7 +28,7 @@ import (
 						GormTag: "gorm:\"uniqueIndex;not null\""
 					}
 					name:  hof.#String
-					if (_Server.AuthConfig.Authentication.Password & true) != _|_ {
+					if (Server.AuthConfig.Authentication.Password & true) != _|_ {
 						password: hof.#Password
 					}
 					role: hof.#String
@@ -43,7 +38,7 @@ import (
 			}
 		}
 
-		if (_Server.EntityConfig.groups & true) != _|_ {
+		if (Server.EntityConfig.groups & true) != _|_ {
 			Group: {
 				ORM: true
 				SoftDelete: true
@@ -70,7 +65,7 @@ import (
 			}
 		}
 
-		if (_Server.AuthConfig.Authentication.Apikey & true) != _|_ {
+		if (Server.AuthConfig.Authentication.Apikey & true) != _|_ {
 			Apikey: {
 				ORM: true
 				SoftDelete: true

@@ -18,12 +18,8 @@ import (
 	let ServerInput = Server
 
 	// Builtin Datamodel design / resources
-	CustomModels: hof.#Datamodel
-	let CustomModelsInput = CustomModels
-
-	// Builtin Datamodel design / resources
-	BuiltinModels: hof.#Modelset
-	let BuiltinModelsInput = BuiltinModels
+	Datamodel: hof.#Datamodel
+	let DM = Datamodel
 
 	// Golang / Cuelang type module name, used for templates and import interpolation
 	Module: string
@@ -41,14 +37,14 @@ import (
 			Module: ModuleInput
 			PackageName: PackageNameInput
 			Server: ServerInput
-			CustomModels: CustomModelsInput
-			BuiltinModels: BuiltinModelsInput
+			Datamodel: DM
 		}
 
 		CliGen: #CliGen & {
 			Outdir: GenOutdir
 			Module: ModuleInput
 			Server: ServerInput
+			// Datamodel: DM
 		}
 
 	}

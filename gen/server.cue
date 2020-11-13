@@ -16,24 +16,19 @@ import (
   PackageName: "" | *"github.com/hofstadter-io/hofmod-server"
 
   Server: schema.#Server
-	CustomModels: hof.#Datamodel
-	BuiltinModels: hof.#Modelset
-
-  // Internal
-
 	Datamodel: hof.#Datamodel & {
-		Name: "ServerDatamodel"
-		Modelsets: CustomModels.Modelsets & {
-			Builtin: BuiltinModels
-			...
+		Modelsets: {
+			Custom: hof.#Modelset
+			Builtin: hof.#Modelset
 		}
 	}
 
+  // Internal
   In: {
     SERVER: Server
 		MODELS: {
-			User: CustomModels
-			Builtin: BuiltinModels
+			User: Datamodel.Modelsets.Custom
+			Builtin: Datamodel.Modelsets.Builtin
 		}
 		ModuleImport: path.Clean("\(Module)/\(Outdir)")
   }

@@ -55,9 +55,9 @@ func apikeyMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
 func apikeyRoutes(G *echo.Group) {
 	g := G.Group("/apikey")
 
-	g.GET("/", listApikey)
-	g.POST("/", createApikey)
-	g.DELETE("/", deleteApikey)
+	g.GET("", listApikey)
+	g.POST("", createApikey)
+	g.DELETE("", deleteApikey)
 }
 
 func listApikey(c echo.Context) (error) {

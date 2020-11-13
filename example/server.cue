@@ -68,8 +68,9 @@ import (
 	}]
 
 	Resources: [{
-		Model: #Todo
+		Model: #CustomModels.Models.Todo
+		let M = Model
 		// TODO, huge slowdown in definition with disjunction
-		Routes: (srv_s.#DefaultResourceRoutes & { Model: #Todo }).Routes
+		Routes: (srv_s.#DefaultResourceRoutes & { Model: M }).Routes
 	}]
 }
