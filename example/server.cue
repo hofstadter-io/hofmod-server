@@ -1,6 +1,8 @@
 package example
 
 import (
+	"strings"
+
 	srv_s "github.com/hofstadter-io/hofmod-server/schema"
 )
 
@@ -70,7 +72,10 @@ import (
 	Resources: [{
 		Model: #CustomModels.Models.Todo
 		let M = Model
-		// TODO, huge slowdown in definition with disjunction
 		Routes: (srv_s.#DefaultResourceRoutes & { Model: M }).Routes
+	},{
+		Model: #BuiltinModels.Models.User
+		let M = Model
+		Routes: [ for r, R in (srv_s.#DefaultResourceRoutes & { Model: M }).RoutesMap if strings.HasSuffix(r, "Admin") && !strings.HasPrefix(r, "Create") { R } ]
 	}]
 }

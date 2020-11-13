@@ -108,7 +108,7 @@ import (
 	RoutesMap: {
 
 		CreateOwn: {
-			Name: "CreateOwn"
+			Name: "\(Model.ModelName)CreateOwn"
 			Path: "/\(Model.modelName)"
 			Method: "POST"
 			ReqBind: Model
@@ -116,7 +116,7 @@ import (
 			Body: string | *(#DefaultCreateOwnBody & { M: Model }).Body
 		}
 		UpdateOwn: {
-			Name: "UpdateOwn"
+			Name: "\(Model.ModelName)UpdateOwn"
 			Path: "/\(Model.modelName)"
 			Method: "PATCH"
 			Params: ["id"]
@@ -125,7 +125,7 @@ import (
 			Body: string | *(#DefaultUpdateOwnBody & { M: Model }).Body
 		}
 		DeleteOwn: {
-			Name: "DeleteOwn"
+			Name: "\(Model.ModelName)DeleteOwn"
 			Path: "/\(Model.modelName)"
 			Method: "DELETE"
 			Params: ["id"]
@@ -133,7 +133,7 @@ import (
 			Body: string | *(#DefaultDeleteOwnBody & { M: Model }).Body
 		}
 		ListOwn: {
-			Name: "ListOwn"
+			Name: "\(Model.ModelName)ListOwn"
 			Path: "/\(Model.modelName)"
 			Method: "GET"
 			Roles: ["super", "admin", "user"]
@@ -141,7 +141,7 @@ import (
 			Body: string | *(#DefaultListOwnBody & { M: Model }).Body
 		}
 		GetOwn: {
-			Name: "GetOwn"
+			Name: "\(Model.ModelName)GetOwn"
 			Path: "/\(Model.modelName)"
 			Method: "GET"
 			Params: ["id"]
@@ -150,7 +150,7 @@ import (
 		}
 
 		CreateAdmin: {
-			Name: "CreateAdmin"
+			Name: "\(Model.ModelName)CreateAdmin"
 			Path: "/admin/\(Model.modelName)"
 			Method: "POST"
 			Query: ["userID"]
@@ -159,7 +159,7 @@ import (
 			Body: string | *(#DefaultCreateAdminBody & { M: Model }).Body
 		}
 		UpdateAdmin: {
-			Name: "UpdateAdmin"
+			Name: "\(Model.ModelName)UpdateAdmin"
 			Path: "/admin/\(Model.modelName)"
 			Method: "PATCH"
 			Params: ["id"]
@@ -168,7 +168,7 @@ import (
 			Body: string | *(#DefaultUpdateAdminBody & { M: Model }).Body
 		}
 		DeleteAdmin: {
-			Name: "DeleteAdmin"
+			Name: "\(Model.ModelName)DeleteAdmin"
 			Path: "/admin/\(Model.modelName)"
 			Method: "DELETE"
 			Params: ["id"]
@@ -176,7 +176,7 @@ import (
 			Body: string | *(#DefaultDeleteAdminBody & { M: Model }).Body
 		}
 		ListAdmin: {
-			Name: "ListAdmin"
+			Name: "\(Model.ModelName)ListAdmin"
 			Path: "/admin/\(Model.modelName)"
 			Method: "GET"
 			Roles: ["super", "admin"]
@@ -184,7 +184,7 @@ import (
 			Body: string | *(#DefaultListAdminBody & { M: Model }).Body
 		}
 		GetAdmin: {
-			Name: "GetAdmin"
+			Name: "\(Model.ModelName)GetAdmin"
 			Path: "/admin/\(Model.modelName)"
 			Method: "GET"
 			Params: ["id"]

@@ -18,6 +18,13 @@ import (
 )
 
 func acctRoutes(e *echo.Echo) {
+	e.POST("/admin/user", AccountAddUser,
+		MakeRoleChecker([]string{
+			"super",
+			"admin",
+		}),
+	)
+
 	g := e.Group("/acct")
 
 	// account routes
@@ -44,6 +51,24 @@ func acctRoutes(e *echo.Echo) {
 	)
 
 	// create auth groups
+}
+
+func AccountAddUser(c echo.Context) (err error) {
+
+	input := new(dm.User)
+	if err = c.Bind(input); err != nil {
+		return err
+	}
+
+	result := db.DB.Create(input)
+
+	if result.Error != nil {
+		return result.Error
+	}
+
+	return c.JSON(http.StatusOK, input)
+
+	return nil
 }
 
 func AccountRegisterHandler(c echo.Context) (err error) {
