@@ -165,12 +165,12 @@ import (
         }
       }
       TemplateName: "route.go"
-      Filepath: "\(OutdirConfig.ServerOutdir)/routes/\(In.ROUTE.Name).go"
+      Filepath: "\(OutdirConfig.ServerOutdir)/routes/\(In.ROUTE.name).go"
 		}
 	]], 1)
 
   _L2_RouteList: [ for P in _L1_RouteFiles if len(P.In.ROUTE.Routes) > 0 {
-    [ for R in P.In.ROUTE.Routes { R,  Parent: { Name: P.In.ROUTE.Name } }]
+    [ for R in P.In.ROUTE.Routes { R,  Parent: { name: P.In.ROUTE.name } }]
   }]
   _L2_RouteFiles: [...hof.#HofGeneratorFile] & [ // List comprehension
     for _, R in list.FlattenN(_L2_RouteList, 1)
@@ -178,16 +178,16 @@ import (
       In: {
 				ROUTE: {
 					R
-          PackageName: R.Parent.Name
+          PackageName: R.Parent.name
 				}
       }
       TemplateName: "route.go"
-      Filepath: "\(OutdirConfig.ServerOutdir)/routes/\(R.Parent.Name)/\(R.Name).go"
+      Filepath: "\(OutdirConfig.ServerOutdir)/routes/\(R.Parent.name)/\(R.name).go"
     }
   ]
 
   _L3_RouteList: [ for P in _L2_RouteFiles if len(P.In.ROUTE.Routes) > 0 {
-    [ for R in P.In.ROUTE.Routes { R,  Parent: { Name: P.In.ROUTE.Name, Parent: P.In.ROUTE.Parent } }]
+    [ for R in P.In.ROUTE.Routes { R,  Parent: { name: P.In.ROUTE.name, Parent: P.In.ROUTE.Parent } }]
   }]
   _L3_RouteFiles: [...hof.#HofGeneratorFile] & [ // List comprehension
     for _, R in list.FlattenN(_L3_RouteList, 1)
@@ -195,11 +195,11 @@ import (
       In: {
 				ROUTE: {
 					R
-          PackageName: R.Parent.Name
+          PackageName: R.Parent.name
 				}
       }
       TemplateName: "route.go"
-      Filepath: "\(OutdirConfig.ServerOutdir)/routes/\(R.Parent.Parent.Name)/\(R.Parent.Name)/\(R.Name).go"
+      Filepath: "\(OutdirConfig.ServerOutdir)/routes/\(R.Parent.Parent.name)/\(R.Parent.name)/\(R.name).go"
     }
   ]
 
@@ -214,7 +214,7 @@ import (
         }
       }
       TemplateName: "resource.go"
-      Filepath: "\(OutdirConfig.ServerOutdir)/resources/\(In.RESOURCE.Name).go"
+      Filepath: "\(OutdirConfig.ServerOutdir)/resources/\(In.RESOURCE.name).go"
 		}
 	]], 1)
 

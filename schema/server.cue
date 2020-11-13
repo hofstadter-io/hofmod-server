@@ -63,6 +63,7 @@ import (
 #Routes: [...#Route] | *[]
 #Route: {
 	Name: string
+	name: string | *"\(strings.ToLower(Name))"
 	Path: string // TODO, add constraints / regex
 	Method: #HttpMethod
 
@@ -85,6 +86,7 @@ import (
 	Model: hof.#Model
 
 	Name: string | *"\(Model.Name)"
+	name: string | *"\(strings.ToLower(Name))"
 	Path: string | *"/\(Model.modelName)"
 
 	Imports: [
@@ -104,16 +106,16 @@ import (
 	Model: hof.#Model
 
 	RoutesMap: {
-		Create: {
-			Name: "Create"
+		CreateOwn: {
+			Name: "CreateOwn"
 			Path: ""
 			Method: "POST"
 			ReqBind: Model
 			Roles: ["super", "admin", "user"]
 			Body: string | *(#DefaultCreateOwnBody & { M: Model }).Body
 		}
-		Update: {
-			Name: "Update"
+		UpdateOwn: {
+			Name: "UpdateOwn"
 			Path: ""
 			Method: "PATCH"
 			Params: ["id"]
@@ -121,8 +123,8 @@ import (
 			Roles: ["super", "admin", "user"]
 			Body: string | *(#DefaultUpdateOwnBody & { M: Model }).Body
 		}
-		Delete: {
-			Name: "Delete"
+		DeleteOwn: {
+			Name: "DeleteOwn"
 			Path: ""
 			Method: "DELETE"
 			Params: ["id"]

@@ -7,11 +7,11 @@ import (
 
 	{{ if .ROUTE.Routes -}}
 	{{ if.ROUTE.Parent.Parent }}
-	"{{ .ModuleImport }}/server/routes/{{ .ROUTE.Parent.Parent.Name }}/{{ .ROUTE.Name }}"
+	"{{ .ModuleImport }}/server/routes/{{ .ROUTE.Parent.Parent.name }}/{{ .ROUTE.name }}"
 	{{ else if .ROUTE.Parent }}
-	"{{ .ModuleImport }}/server/routes/{{ .ROUTE.Parent.Name }}/{{ .ROUTE.Name }}"
+	"{{ .ModuleImport }}/server/routes/{{ .ROUTE.Parent.name }}/{{ .ROUTE.name }}"
 	{{ else }}
-	"{{ .ModuleImport }}/server/routes/{{ .ROUTE.Name }}"
+	"{{ .ModuleImport }}/server/routes/{{ .ROUTE.name }}"
 	{{ end }}
 	{{ end }}
 
@@ -36,7 +36,7 @@ func {{ $ROUTE.Name }}Routes(G *echo.Group) {
 		{{ end }}
 	)
 	{{ range $SUB := $ROUTE.Routes }}
-	{{ $ROUTE.Name }}.{{ $SUB.Name }}Routes(g)
+	{{ $ROUTE.name }}.{{ $SUB.Name }}Routes(g)
 	{{ end }}
 }
 
