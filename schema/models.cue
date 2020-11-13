@@ -1,39 +1,21 @@
-package gen
+package schema
 
 import (
 	"list"
 
   hof "github.com/hofstadter-io/hof/schema"
-
-  "github.com/hofstadter-io/hofmod-server/schema"
 )
-
-#ModelGen: {
-	Server: schema.#Server
-	let ServerInput = Server
-
-	UserModels: hof.#Datamodel
-	let UserModelsInput = UserModels
-
-	Datamodel: hof.#Datamodel & {
-		Name: "ServerDatamodel"
-
-		_ServerFields: ["Name", "Package", "EntityConfig", "AuthConfig"]
-		Modelsets: UserModelsInput.Modelsets & {
-			Builtin: #BuiltinModels & { Server: { for k,v in ServerInput {
-				if list.Contains(_ServerFields, k) {
-					"\(k)": v
-				}
-			} } }
-			// leave open so user defined models can be added
-			...
-		}
-	}
-}
 
 #BuiltinModels: hof.#Modelset & {
 	Name: "Builtin"
-	Server: schema.#Server
+	Server: #Server
+	_ServerFields: ["EntityConfig", "AuthConfig"]
+	_Server: { for k,v in Server {
+		if list.Contains(_ServerFields, k) {
+			"\(k)": v
+		}
+	} }
+
 	MigrateOrder: [
 		Models.User,
 		Models.Group,
@@ -41,8 +23,8 @@ import (
 	]
 	Models: {
 
-		if (Server.EntityConfig.users & true) != _|_ {
-			User: hof.#Model & {
+		if (_Server.EntityConfig.users & true) != _|_ {
+			User: {
 				ORM: true
 				SoftDelete: true
 				Fields: {
@@ -51,7 +33,7 @@ import (
 						GormTag: "gorm:\"uniqueIndex;not null\""
 					}
 					name:  hof.#String
-					if (Server.AuthConfig.Authentication.Password & true) != _|_ {
+					if (_Server.AuthConfig.Authentication.Password & true) != _|_ {
 						password: hof.#Password
 					}
 					role: hof.#String
@@ -61,8 +43,8 @@ import (
 			}
 		}
 
-		if (Server.EntityConfig.groups & true) != _|_ {
-			Group: hof.#Model & {
+		if (_Server.EntityConfig.groups & true) != _|_ {
+			Group: {
 				ORM: true
 				SoftDelete: true
 				Fields: {
@@ -88,7 +70,7 @@ import (
 			}
 		}
 
-		if (Server.AuthConfig.Authentication.Apikey & true) != _|_ {
+		if (_Server.AuthConfig.Authentication.Apikey & true) != _|_ {
 			Apikey: {
 				ORM: true
 				SoftDelete: true
@@ -116,6 +98,5 @@ import (
 		}
 
 	}
+	...
 }
-
-

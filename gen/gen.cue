@@ -8,7 +8,6 @@ import (
 
 // Meta generator for sharing inputs
 #HofGenerator: hof.#HofGenerator & {
-	// User Inputs
 
 	// Where to generate the output
   Outdir: string | *"./"
@@ -18,9 +17,13 @@ import (
   Server: schema.#Server
 	let ServerInput = Server
 
-	// Datamodel design / resources
-	Datamodel: hof.#Datamodel
-	let DatamodelInput = Datamodel
+	// Builtin Datamodel design / resources
+	CustomModels: hof.#Datamodel
+	let CustomModelsInput = CustomModels
+
+	// Builtin Datamodel design / resources
+	BuiltinModels: hof.#Modelset
+	let BuiltinModelsInput = BuiltinModels
 
 	// Golang / Cuelang type module name, used for templates and import interpolation
 	Module: string
@@ -38,8 +41,8 @@ import (
 			Module: ModuleInput
 			PackageName: PackageNameInput
 			Server: ServerInput
-			UserModels: DatamodelInput
-			BuiltinModels: #BuiltinModels & { Server: ServerInput }
+			CustomModels: CustomModelsInput
+			BuiltinModels: BuiltinModelsInput
 		}
 
 		CliGen: #CliGen & {
@@ -49,4 +52,5 @@ import (
 		}
 
 	}
+
 }
