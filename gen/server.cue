@@ -65,8 +65,28 @@ import (
   _OnceFiles: [...hof.#HofGeneratorFile] & [
     {
       TemplateName: "config.go"
-      Filepath: "\(OutdirConfig.ServerOutdir)/config/config.go"
+      Filepath: "\(Outdir)/config/config.go"
     },
+		{
+			TemplateName: "mailer/mailgun.go"
+			Filepath: "\(Outdir)/mailer/mailgun.go"
+		},
+		{
+			TemplateName: "db/common.go"
+			Filepath: "\(Outdir)/db/common.go"
+		},
+		{
+			TemplateName: "db/migrate.go"
+			Filepath: "\(Outdir)/db/migrate.go"
+		},
+		{
+			TemplateName: "db/seed.go"
+			Filepath: "\(Outdir)/db/seed.go"
+		},
+		{
+			TemplateName: "db/postgres.go"
+			Filepath: "\(Outdir)/db/postgres.go"
+		},
     {
       TemplateName: "server.go"
       Filepath: "\(OutdirConfig.ServerOutdir)/server.go"
@@ -102,26 +122,6 @@ import (
 		{
 			TemplateName: "auth/emails.go"
 			Filepath: "\(OutdirConfig.ServerOutdir)/auth/emails.go"
-		},
-		{
-			TemplateName: "db/common.go"
-			Filepath: "\(OutdirConfig.ServerOutdir)/db/common.go"
-		},
-		{
-			TemplateName: "db/migrate.go"
-			Filepath: "\(OutdirConfig.ServerOutdir)/db/migrate.go"
-		},
-		{
-			TemplateName: "db/seed.go"
-			Filepath: "\(OutdirConfig.ServerOutdir)/db/seed.go"
-		},
-		{
-			TemplateName: "db/postgres.go"
-			Filepath: "\(OutdirConfig.ServerOutdir)/db/postgres.go"
-		},
-		{
-			TemplateName: "mailer/mailgun.go"
-			Filepath: "\(Outdir)/mailer/mailgun.go"
 		},
   ]
 

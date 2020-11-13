@@ -15,10 +15,10 @@ import (
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
 
+	"{{ .ModuleImport }}/config"
+	"{{ .ModuleImport }}/db"
 	"{{ .ModuleImport }}/dm"
 	"{{ .ModuleImport }}/mailer"
-	"{{ .ModuleImport }}/server/config"
-	"{{ .ModuleImport }}/server/db"
 )
 
 const BCRYPT_COST = 12

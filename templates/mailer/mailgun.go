@@ -4,7 +4,7 @@ import (
 	"cuelang.org/go/cue"
 	"github.com/mailgun/mailgun-go/v4"
 
-	"{{ .ModuleImport }}/server/config"
+	"{{ .ModuleImport }}/config"
 )
 
 var MG *mailgun.MailgunImpl

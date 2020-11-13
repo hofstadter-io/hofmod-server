@@ -13,9 +13,9 @@ import (
 	"{{ $I }}"
 	{{ end }}
 
+	"{{ .ModuleImport }}/db"
 	"{{ .ModuleImport }}/dm"
 	"{{ .ModuleImport }}/server/auth"
-	"{{ .ModuleImport }}/server/db"
 )
 
 func {{ $RESOURCE.Name }}Routes(G *echo.Group) {

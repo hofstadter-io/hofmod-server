@@ -11,10 +11,10 @@ import (
 	"github.com/labstack/echo/v4"
 	"golang.org/x/crypto/bcrypt"
 
+	"{{ .ModuleImport }}/config"
+	"{{ .ModuleImport }}/db"
 	"{{ .ModuleImport }}/dm"
 	"{{ .ModuleImport }}/mailer"
-	"{{ .ModuleImport }}/server/config"
-	"{{ .ModuleImport }}/server/db"
 )
 
 func acctRoutes(e *echo.Echo) {

@@ -27,7 +27,7 @@ import (
 
 		OmitRun: true
 
-		Imports: [{ Path: path.Clean("\(Module)/\(Outdir)/server/config"), As: "config"}]
+		Imports: [{ Path: path.Clean("\(Module)/\(Outdir)/config"), As: "config"}]
 		PersistentPrerun: true
 		PersistentPrerunBody: #PersistentPrerunBody
 
@@ -83,7 +83,7 @@ import (
 			Short: "view server config values"
 			Long: Short
 
-			Imports: [{ Path: path.Clean("\(Module)/\(Outdir)/server/config"), As: "config"}]
+			Imports: [{ Path: path.Clean("\(Module)/\(Outdir)/config"), As: "config"}]
 
 			Body: """
 			err = config.Print()
@@ -100,7 +100,7 @@ import (
 				Short: "test connecting to the db"
 				Long: Short
 
-				Imports: [{ Path: path.Clean("\(Module)/\(Outdir)/server/db"), As: "db"}]
+				Imports: [{ Path: path.Clean("\(Module)/\(Outdir)/db"), As: "db"}]
 
 				Body: #DbTestBody
 			},{
@@ -108,7 +108,7 @@ import (
 				Short: "auto-migrate the database schema"
 				Long: "Auto migrates the database schema to match the latest design. Does not drop columns or delete tables."
 
-				Imports: [{ Path: path.Clean("\(Module)/\(Outdir)/server/db"), As: "db"}]
+				Imports: [{ Path: path.Clean("\(Module)/\(Outdir)/db"), As: "db"}]
 
 				Body: #DbMigrateBody
 			},{
@@ -124,7 +124,7 @@ import (
 					Help: "Cue entrypoints to load seed data from. (default: './seeds/')"
 				}]
 
-				Imports: [{ Path: path.Clean("\(Module)/\(Outdir)/server/db"), As: "db"}]
+				Imports: [{ Path: path.Clean("\(Module)/\(Outdir)/db"), As: "db"}]
 
 				Body: #DbSeedBody
 			}]

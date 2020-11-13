@@ -9,8 +9,8 @@ import (
 	"github.com/labstack/echo/v4"
 	"gorm.io/gorm"
 
+	"{{ .ModuleImport }}/db"
 	"{{ .ModuleImport }}/dm"
-	"{{ .ModuleImport }}/server/db"
 )
 
 // always return true so we can have multiple types of auth
