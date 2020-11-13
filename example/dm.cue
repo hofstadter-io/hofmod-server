@@ -6,15 +6,7 @@ import (
   srv_s "github.com/hofstadter-io/hofmod-server/schema"
 )
 
-#Datamodel: hof.#Datamodel & {
-	Name: "ServerDatamodel"
-	Modelsets: {
-		Custom: #CustomModels
-		Builtin: #BuiltinModels
-	}
-}
-
-#CustomModels: hof.#Modelset & {
+CustomModels: hof.#Modelset & {
 	MigrateOrder: [
 		Models.Todo,
 	]
@@ -36,15 +28,13 @@ import (
 				}
 			}
 		}
-
 	}
-	...
 }
 
-#BuiltinModels: srv_s.#BuiltinModels & {
+BuiltinModels: srv_s.#BuiltinModels & {
 	Server: {
-		AuthConfig: #Server.AuthConfig
-		EntityConfig: #Server.EntityConfig
+		AuthConfig: ServerDesign.AuthConfig
+		EntityConfig: ServerDesign.EntityConfig
 	}
 	Models: {
 		User: hof.#Model & {
@@ -56,6 +46,5 @@ import (
 				}
 			}
 		}
-		...
 	}
 }

@@ -8,8 +8,15 @@ Server: srv_g.#HofGenerator & {
 	Outdir: "./output"
 	Module: "github.com/hofstadter-io/hofmod-server"
 
-	Server: #Server
-	Datamodel: #Datamodel
+	Server: ServerDesign
+	Datamodel: {
+		Name: "ServerDatamodel"
+		Modelsets: {
+			Custom: CustomModels
+			Builtin: BuiltinModels
+		}
+	}
+
 
 	// Needed because we are using the generator from within it's directory
 	PackageName: ""
