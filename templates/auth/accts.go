@@ -17,6 +17,35 @@ import (
 	"{{ .ModuleImport }}/server/db"
 )
 
+func acctRoutes(e *echo.Echo) {
+	g := e.Group("/acct")
+
+	// account routes
+	g.GET("/register", AccountRegisterHandler)
+	g.GET("/confirm", AccountConfirmHandler)
+	g.GET("/resend-confirm", AccountResendConfirmHandler)
+
+	g.POST("/active", AccountSetActive,
+		MakeRoleChecker([]string{
+			"super",
+			"admin",
+		}),
+	)
+	g.POST("/disabled", AccountSetDisabled,
+		MakeRoleChecker([]string{
+			"super",
+			"admin",
+		}),
+	)
+	g.POST("/role", AccountSetRole,
+		MakeRoleChecker([]string{
+			"super",
+		}),
+	)
+
+	// create auth groups
+}
+
 func AccountRegisterHandler(c echo.Context) (err error) {
 	email := c.QueryParam("email")
 	// TODO, validate email
@@ -195,4 +224,56 @@ func sendConfirmEmail(email string, c echo.Context) (err error) {
 	c.Logger().Debugf("Confirm Account ID: %s Resp: %s", id, resp)
 
 	return nil
+}
+
+func AccountSetActive(c echo.Context) (err error) {
+	uid := c.QueryParam("uid")
+	active := c.QueryParam("active")
+
+	err = db.DB.Model(&dm.User{}).Where("id = ? AND role = ?", uid, "user").Update("active", active).Error
+	if err != nil {
+		c.Logger().Error(err)
+		return err
+	}
+
+	return c.String(http.StatusOK, "OK")
+}
+
+func AccountSetDisabled(c echo.Context) (err error) {
+	// setup check so that roles can't change disabled inappropriately
+	check := "id = ? AND role != super"
+	user := c.Get("user").(*dm.User)
+	if user.Role == "super" {
+		check = "id = ?"
+	}
+
+	uid := c.QueryParam("uid")
+	disabled := c.QueryParam("disabled")
+
+	err = db.DB.Model(&dm.User{}).Where(check, uid).Update("disabled", disabled).Error
+	if err != nil {
+		c.Logger().Error(err)
+		return err
+	}
+
+	return c.String(http.StatusOK, "OK")
+}
+
+func AccountSetRole(c echo.Context) (err error) {
+	// check for super user
+	user := c.Get("user").(*dm.User)
+	if user.Role != "super" {
+		c.String(http.StatusBadRequest, "only super roles can change roles")
+	}
+
+	uid := c.QueryParam("uid")
+	role := c.QueryParam("role")
+
+	err = db.DB.Model(&dm.User{}).Where("id = ?", uid).Update("role", role).Error
+	if err != nil {
+		c.Logger().Error(err)
+		return err
+	}
+
+	return c.String(http.StatusOK, "OK")
 }

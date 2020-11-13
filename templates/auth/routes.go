@@ -9,10 +9,8 @@ import (
 {{ $AUTH := .SERVER.AuthConfig.Authentication }}
 
 func Routes(e *echo.Echo) {
-	// account routes
-	e.GET("/acct/register", AccountRegisterHandler)
-	e.GET("/acct/confirm", AccountConfirmHandler)
-	e.GET("/acct/resend-confirm", AccountResendConfirmHandler)
+	// set account routes
+	acctRoutes(e)
 
 	// create auth groups
 	g := e.Group("/auth")
