@@ -87,7 +87,7 @@ import (
 
 	Name: string | *"\(Model.Name)"
 	name: string | *"\(strings.ToLower(Name))"
-	Path: string | *"/\(Model.modelName)"
+	Path: string | *""
 
 	Imports: [
 		"strconv",
@@ -106,9 +106,10 @@ import (
 	Model: hof.#Model
 
 	RoutesMap: {
+
 		CreateOwn: {
 			Name: "CreateOwn"
-			Path: ""
+			Path: "/\(Model.modelName)"
 			Method: "POST"
 			ReqBind: Model
 			Roles: ["super", "admin", "user"]
@@ -116,7 +117,7 @@ import (
 		}
 		UpdateOwn: {
 			Name: "UpdateOwn"
-			Path: ""
+			Path: "/\(Model.modelName)"
 			Method: "PATCH"
 			Params: ["id"]
 			ReqBind: Model
@@ -125,7 +126,7 @@ import (
 		}
 		DeleteOwn: {
 			Name: "DeleteOwn"
-			Path: ""
+			Path: "/\(Model.modelName)"
 			Method: "DELETE"
 			Params: ["id"]
 			Roles: ["super", "admin", "user"]
@@ -133,7 +134,7 @@ import (
 		}
 		ListOwn: {
 			Name: "ListOwn"
-			Path: ""
+			Path: "/\(Model.modelName)"
 			Method: "GET"
 			Roles: ["super", "admin", "user"]
 			Query: ["limit", "offset"]
@@ -141,11 +142,54 @@ import (
 		}
 		GetOwn: {
 			Name: "GetOwn"
-			Path: ""
+			Path: "/\(Model.modelName)"
 			Method: "GET"
 			Params: ["id"]
 			Roles: ["super", "admin", "user"]
 			Body: string | *(#DefaultGetOwnBody & { M: Model }).Body
+		}
+
+		CreateAdmin: {
+			Name: "CreateAdmin"
+			Path: "/admin/\(Model.modelName)"
+			Method: "POST"
+			Query: ["userID"]
+			ReqBind: Model
+			Roles: ["super", "admin"]
+			Body: string | *(#DefaultCreateAdminBody & { M: Model }).Body
+		}
+		UpdateAdmin: {
+			Name: "UpdateAdmin"
+			Path: "/admin/\(Model.modelName)"
+			Method: "PATCH"
+			Params: ["id"]
+			ReqBind: Model
+			Roles: ["super", "admin"]
+			Body: string | *(#DefaultUpdateAdminBody & { M: Model }).Body
+		}
+		DeleteAdmin: {
+			Name: "DeleteAdmin"
+			Path: "/admin/\(Model.modelName)"
+			Method: "DELETE"
+			Params: ["id"]
+			Roles: ["super", "admin"]
+			Body: string | *(#DefaultDeleteAdminBody & { M: Model }).Body
+		}
+		ListAdmin: {
+			Name: "ListAdmin"
+			Path: "/admin/\(Model.modelName)"
+			Method: "GET"
+			Roles: ["super", "admin"]
+			Query: ["userID", "limit", "offset"]
+			Body: string | *(#DefaultListAdminBody & { M: Model }).Body
+		}
+		GetAdmin: {
+			Name: "GetAdmin"
+			Path: "/admin/\(Model.modelName)"
+			Method: "GET"
+			Params: ["id"]
+			Roles: ["super", "admin"]
+			Body: string | *(#DefaultGetAdminBody & { M: Model }).Body
 		}
 	}
 
