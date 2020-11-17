@@ -53,8 +53,8 @@ func migOld(entrypoints []string) (err error) {
 		&dm.{{ $model.ModelName }}{},
 	{{ end }}
 
-	// User Models
-	{{ range $i, $mset := .MODELS.User.Modelsets -}}
+	// Custom Models
+	{{ range $i, $mset := .MODELS.Custom.Modelsets -}}
 	{{ $MODELS := $mset.Models -}}
 	{{ if $mset.MigrateOrder }}{{ $MODELS = $mset.MigrateOrder }}{{ end -}}
 	{{ range $j, $model := $MODELS -}}
@@ -124,17 +124,11 @@ func clearData() (err error) {
 	}
 	{{end}}
 
-	{{ range $i, $mset := .MODELS.User.Modelsets -}}
-	{{ if ne $mset.ModelsetName "Builtin" }}
-	{{ $MODELS := $mset.Models -}}
-	{{ if $mset.MigrateOrder }}{{ $MODELS = $mset.MigrateOrder }}{{ end -}}
-	{{ range $j, $model := $MODELS -}}
+	{{ range $i, $model := .MODELS.Custom.MigrateOrder -}}
 	err = DB.Session(sess).Unscoped().Delete(&dm.{{ $model.ModelName }}{}).Error
 	if err != nil {
 		return err
 	}
-	{{ end }}
-	{{ end }}
 	{{ end }}
 
 	return nil
@@ -154,17 +148,11 @@ func runSeeds(seeds cue.Value) (err error) {
 	}
 	{{ end }}
 
-	{{ range $i, $mset := .MODELS.User.Modelsets -}}
-	{{ if ne $mset.ModelsetName "Builtin" }}
-	{{ $MODELS := $mset.Models -}}
-	{{ if $mset.MigrateOrder }}{{ $MODELS = $mset.MigrateOrder }}{{ end -}}
-	{{ range $j, $model := $MODELS -}}
+	{{ range $i, $model := .MODELS.Custom.MigrateOrder -}}
 	err = runSeed(seeds, &dm.{{ $model.ModelName }}{}, "{{ $model.ModelName }}", nil)
 	if err != nil {
 		return err
 	}
-	{{ end }}
-	{{ end }}
 	{{ end }}
 	return nil
 }

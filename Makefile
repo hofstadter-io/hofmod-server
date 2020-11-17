@@ -18,7 +18,7 @@ build:
 clean:
 	rm -rf ./.hof/ ./output/ server
 
-.PHONY: dev-db-start
+.PHONY: db-up
 db-up:
 	docker run -d --rm -it \
 		--name example-db \
@@ -29,18 +29,18 @@ db-up:
 		-v ${PWD}/data/db:/var/lib/postgresql/data \
 		postgres:13
 
-.PHONY: dev-db-stop
+.PHONY: db-down
 db-down:
 	docker rm -f example-db
 
-.PHONY: dev-db-clean
+.PHONY: db-clean
 db-clean:
 	sudo rm -rf ./data/db
 
-.PHONY: dev-db-clean-all
-db-nuke: dev-db-stop dev-db-clean
+.PHONY: dev-nuke
+db-nuke: db-down db-clean
 
-.PHONY: dev-db-psql
+.PHONY: psql
 psql:
 	@docker run --rm -it --name psql \
 		--network host \

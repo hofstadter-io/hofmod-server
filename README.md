@@ -1,4 +1,4 @@
-# hofmod-rest
+# hofmod-server
 
 A Golang server generator where you can write
 custom code in the output while evolving the design.
@@ -10,7 +10,7 @@ Built with [hof](https://github.com/hofstadter-io/hof) - the high code generator
 See the [schema](./schema) for designing details,
 you can customize just about everything.
 
-##### Advanced REST server
+#### REST Server
 
 - Entity framework (builtin users and groups)
 - Password and APIKey authentication
@@ -25,7 +25,7 @@ you can customize just about everything.
 - Builtin CLI with many helpful commands
 - Goreleaser for simplified releases
 
-##### Extensible data model
+#### Data Model
 
 - Automated schema generation and incremental migrations
 - Server sub-commands for database migrations seeding

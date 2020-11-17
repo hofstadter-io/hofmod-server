@@ -89,6 +89,72 @@ import (
 			err = config.Print()
 			"""
 		},{
+
+			Name: "api"
+			Short: "work with the api and resources"
+			Long: Short
+
+			Imports: [{ Path: path.Clean("\(Module)/\(Outdir)/client"), As: "client"}]
+
+			Body: #ApiClientBody
+			Flags: [{
+				Name: "server"
+				Long: "server"
+				Short: "s"
+				Type: "string"
+				Default: ""
+				Help: "server address or domain"
+			},{
+				Name: "user"
+				Long: "user"
+				Short: "u"
+				Type: "string"
+				Default: ""
+				Help: "Basic auth: 'user:pass'"
+			},{
+				Name: "apikey"
+				Long: "apikey"
+				Short: "a"
+				Type: "string"
+				Default: ""
+				Help: "API Key auth"
+			},{
+				Name: "data"
+				Long: "data"
+				Short: "d"
+				Type: "string"
+				Default: ""
+				Help: "data to send"
+			},{
+				Name: "headers"
+				Long: "headers"
+				Short: "H"
+				Type: "[]string"
+				Default: "[]string{}"
+				Help: "Headers for the request"
+			},{
+				Name: "params"
+				Long: "params"
+				Short: "p"
+				Type: "[]string"
+				Default: "[]string{}"
+				Help: "Path params for the request"
+			},{
+				Name: "query"
+				Long: "query"
+				Short: "q"
+				Type: "[]string"
+				Default: "[]string{}"
+				Help: "Query params for the request"
+			},{
+				Name: "timeout"
+				Long: "timeout"
+				Short: "t"
+				Type: "string"
+				Default: ""
+				Help: "timeout duration"
+			}]
+		},{
 			Name: "db"
 			Short: "work with the database"
 			Long: Short
@@ -171,4 +237,14 @@ if err != nil {
 }
 
 fmt.Println("Seeding Complete")
+"""
+
+#ApiClientBody: """
+result, err := client.Do(args)
+
+if err != nil {
+	return err
+}
+
+fmt.Println(result)
 """

@@ -9,20 +9,14 @@ import (
 
 func RunMigrations() (err error) {
 	DB.AutoMigrate(
-	// Builtin Models
+		// Builtin Models
 	{{ range $i, $model := .MODELS.Builtin.MigrateOrder -}}
 		&dm.{{ $model.ModelName }}{},
 	{{ end }}
 
-	// User Models
-	{{ range $i, $mset := .MODELS.User.Modelsets -}}
-	{{ if ne $mset.ModelsetName "Builtin" }}
-	{{ $MODELS := $mset.Models -}}
-	{{ if $mset.MigrateOrder }}{{ $MODELS = $mset.MigrateOrder }}{{ end -}}
-	{{ range $j, $model := $MODELS -}}
+		// Custom Models
+	{{ range $i, $model := .MODELS.Custom.MigrateOrder -}}
 		&dm.{{ $model.ModelName }}{},
-	{{ end }}
-	{{ end }}
 	{{ end }}
 	)
 

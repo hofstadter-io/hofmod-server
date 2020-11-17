@@ -17,7 +17,7 @@ require (
 	github.com/labstack/gommon v0.3.0
 	github.com/lane-c-wagner/go-password-validator v0.1.0
 	github.com/mailgun/mailgun-go/v4 v4.3.0
-	github.com/parnurzeal/gorequest v0.2.16 // indirect
+	github.com/parnurzeal/gorequest v0.2.16
 	github.com/prometheus/client_golang v1.1.0
 	github.com/spf13/cobra v1.1.1
 	golang.org/x/crypto v0.0.0-20200820211705-5c72a883971a

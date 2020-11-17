@@ -27,7 +27,7 @@ import (
   In: {
     SERVER: Server
 		MODELS: {
-			User: Datamodel.Modelsets.Custom
+			Custom: Datamodel.Modelsets.Custom
 			Builtin: Datamodel.Modelsets.Builtin
 		}
 		ModuleImport: path.Clean("\(Module)/\(Outdir)")
@@ -81,6 +81,14 @@ import (
 		{
 			TemplateName: "db/postgres.go"
 			Filepath: "\(Outdir)/db/postgres.go"
+		},
+		{
+			TemplateName: "client/do.go"
+			Filepath: "\(Outdir)/client/do.go"
+		},
+		{
+			TemplateName: "client/client.go"
+			Filepath: "\(Outdir)/client/client.go"
 		},
     {
       TemplateName: "server.go"
@@ -199,7 +207,7 @@ import (
   ]
 
 	// Resource Routes
-  _L1_ResourceFiles: [...hof.#HofGeneratorFile] & list.FlattenN([[
+  _L1_ResourceFiles: [...hof.#HofGeneratorFile] & [
     for _, R in Server.Resources
     {
       In: {
@@ -211,7 +219,7 @@ import (
       TemplateName: "resource.go"
       Filepath: "\(OutdirConfig.ServerOutdir)/resources/\(In.RESOURCE.name).go"
 		}
-	]], 1)
+	]
 
 	...
 }
