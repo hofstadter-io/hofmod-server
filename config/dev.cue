@@ -1,6 +1,7 @@
 package dev
 
 Config: {
+	host: "http://localhost"
 	port: "1323"
 	logging: {
 		level: "debug"

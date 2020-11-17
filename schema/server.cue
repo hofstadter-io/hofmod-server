@@ -78,6 +78,8 @@ import (
 	Imports: [...string] | *[]
 	Body?: string
 
+	ValidateInput?: bool
+
 	Routes: [...#Route]
 }
 
@@ -114,6 +116,7 @@ import (
 			ReqBind: Model
 			Roles: ["super", "admin", "user"]
 			Body: string | *(#DefaultCreateOwnBody & { M: Model }).Body
+			ValidateInput: true
 		}
 		UpdateOwn: {
 			Name: "\(Model.ModelName)UpdateOwn"
@@ -123,6 +126,7 @@ import (
 			ReqBind: Model
 			Roles: ["super", "admin", "user"]
 			Body: string | *(#DefaultUpdateOwnBody & { M: Model }).Body
+			ValidateInput: true
 		}
 		DeleteOwn: {
 			Name: "\(Model.ModelName)DeleteOwn"
@@ -157,6 +161,7 @@ import (
 			ReqBind: Model
 			Roles: ["super", "admin"]
 			Body: string | *(#DefaultCreateAdminBody & { M: Model }).Body
+			ValidateInput: true
 		}
 		UpdateAdmin: {
 			Name: "\(Model.ModelName)UpdateAdmin"
@@ -166,6 +171,7 @@ import (
 			ReqBind: Model
 			Roles: ["super", "admin"]
 			Body: string | *(#DefaultUpdateAdminBody & { M: Model }).Body
+			ValidateInput: true
 		}
 		DeleteAdmin: {
 			Name: "\(Model.ModelName)DeleteAdmin"

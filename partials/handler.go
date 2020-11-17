@@ -17,6 +17,18 @@ func {{ $ROUTE.Name }}Handler(c echo.Context) (err error) {
 	}
 	{{ end }}
 
+	{{ if $ROUTE.ValidateInput }}
+	err = c.Validate(input)
+	if err != nil {
+    errs := err.(validator.ValidationErrors)
+    flds := map[string]string{}
+    for _, e := range errs {
+      flds[e.Namespace()] = fmt.Sprintf("failed %s %s constraint", e.Tag(), e.Param())
+    }
+    return c.JSON(http.StatusBadRequest,  map[string]interface{}{"errors": flds})
+	}
+	{{ end }}
+
 	{{ if $ROUTE.Body }}
 	{{ $ROUTE.Body }}
 	{{ else }}

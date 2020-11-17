@@ -25,13 +25,17 @@ import (
 				Fields: {
 					email: hof.#Email & {
 						nullable: false
-						GormTag: "gorm:\"uniqueIndex;not null\""
+						unique: true
+						nullable: false
 					}
 					name:  hof.#String
 					if (Server.AuthConfig.Authentication.Password & true) != _|_ {
 						password: hof.#Password
 					}
-					role: hof.#String
+					role: hof.#String & {
+						length: 16
+						nullable: false
+					}
 					active: hof.#Bool
 					disabled: hof.#Bool
 				}

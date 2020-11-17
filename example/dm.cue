@@ -16,8 +16,8 @@ CustomModels: hof.#Modelset & {
 			ORM: true
 			SoftDelete: true
 			Fields: {
-				name:     hof.#String & { unique: true }
-				content:  hof.#String & { length: 2048 }
+				name:     hof.#String & { unique: true, validation: { required: true } }
+				content:  hof.#String & { length: 2048, validation: { required: true } }
 				complete: hof.#Bool
 			}
 			Relations: {
@@ -25,6 +25,11 @@ CustomModels: hof.#Modelset & {
 					relation: "BelongsTo"
 					type: "uuid.UUID"
 					GormTag: "gorm:\"type:uuid;foreignKey:UserID\""
+				}
+			}
+			Views: {
+				Create: {
+					Fields: CustomModels.Models.Todo.Fields
 				}
 			}
 		}

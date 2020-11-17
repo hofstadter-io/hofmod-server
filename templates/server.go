@@ -8,6 +8,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/go-playground/validator/v10"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/gommon/log"
 
@@ -15,6 +16,14 @@ import (
 	"{{ .ModuleImport }}/db"
 	"{{ .ModuleImport }}/mailer"
 )
+
+type CustomValidator struct {
+	validator *validator.Validate
+}
+
+func (cv *CustomValidator) Validate(i interface{}) error {
+	return cv.validator.Struct(i)
+}
 
 func Run() {
 	var err error
@@ -37,6 +46,9 @@ func Run() {
 	// create echo server
 	e := echo.New()
 	e.HideBanner = true
+
+	// setup validator
+	e.Validator = &CustomValidator{validator: validator.New()}
 
 	err = setupLogging(e)
 	if err != nil {

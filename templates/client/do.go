@@ -8,6 +8,7 @@ import (
 	"github.com/parnurzeal/gorequest"
 
 	"{{ .ModuleImport }}/cmd/{{ .SERVER.serverName }}/flags"
+	"{{ .ModuleImport }}/config"
 )
 
 func Do(args []string) (string, error) {
@@ -18,6 +19,13 @@ func Do(args []string) (string, error) {
 	req := gorequest.New()
 
 	server := flags.ApiFlags.Server
+	if server == "" {
+		h, _ := config.Get("host")
+		H, _ := h.String()
+		p, _ := config.Get("port")
+		P, _ := p.String()
+		server = H + ":" + P
+	}
 
 	// parse args
 	if len(args) < 2 {
@@ -36,19 +44,19 @@ func Do(args []string) (string, error) {
 	// fmt.Println("url: ", url)
 
 	switch m {
-	case "GET":
+	case "GET", "LIST":
 		req = req.Get(url)
 
-	case "POST":
+	case "POST", "CREATE", "NEW":
 		req = req.Post(url)
 
 	case "PUT":
 		req = req.Put(url)
 
-	case "PATCH":
+	case "PATCH", "UPDATE":
 		req = req.Patch(url)
 
-	case "DELETE":
+	case "DELETE", "DEL":
 		req = req.Delete(url)
 
 	default:
@@ -75,6 +83,10 @@ func Do(args []string) (string, error) {
 		return "", err
 	}
 
+	if flags.ApiFlags.Data != "" {
+		req = req.Send(flags.ApiFlags.Data)
+	}
+
 	return Finish(req)
 
 	return "do or do not, there is no try", nil
@@ -85,7 +97,6 @@ func setAuth(req *gorequest.SuperAgent) (*gorequest.SuperAgent, error) {
 	user := flags.ApiFlags.User
 
 	if api != "" {
-		fmt.Println("setting apikey: ", api)
 		req =	req.AppendHeader("apikey", api)
 	} else if user != "" {
 		s := strings.Split(user, ":")

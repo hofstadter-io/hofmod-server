@@ -5,6 +5,7 @@ go 1.15
 require (
 	cuelang.org/go v0.2.1
 	github.com/dgrijalva/jwt-go/v4 v4.0.0-preview1
+	github.com/go-playground/validator/v10 v10.4.1
 	github.com/google/uuid v1.1.1
 	github.com/hofstadter-io/hof v0.5.13
 	github.com/hofstadter-io/yagu v0.0.3 // indirect
