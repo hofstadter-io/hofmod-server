@@ -1,9 +1,11 @@
 package auth
 
 import (
+	"bytes"
 	"context"
 	"fmt"
 	"net/http"
+	"text/template"
 	"time"
 
 	"github.com/dgrijalva/jwt-go/v4"
@@ -183,9 +185,20 @@ func AccountConfirmHandler(c echo.Context) (err error) {
 			return err
 		}
 
+		T, err := template.New("").Parse(mailer.AccountConfirmEmail)
+		data := map[string]interface{} {
+			"Email": email,
+		}
+		var buf bytes.Buffer
+		err = T.Execute(&buf, data)
+		if err != nil {
+			c.Logger().Error(err)
+			return err
+		}
+
+		body := buf.String()
 		sender := "Accounts Service - Example App <accounts@hofstadter.io>"
 		subject := "Welcome to Hofstadter!"
-		body := accountConfirmEmail
 		recipient := email
 
 		// The message object allows you to add attachments and Bcc recipients
@@ -228,9 +241,20 @@ func sendConfirmEmail(email string, c echo.Context) (err error) {
 		return err
 	}
 
+	T, err := template.New("").Parse(mailer.AccountRegisterEmail)
+	data := map[string]interface{} {
+		"Email": email,
+		"Token": tokenString,
+	}
+	var buf bytes.Buffer
+	err = T.Execute(&buf, data)
+	if err != nil {
+		return err
+	}
+
+	body := buf.String()
 	sender := "Accounts Service - Example App <accounts@hofstadter.io>"
 	subject := "Confirm Your Account"
-	body := fmt.Sprintf(accountRegisterEmail, tokenString)
 	recipient := email
 
 	// The message object allows you to add attachments and Bcc recipients

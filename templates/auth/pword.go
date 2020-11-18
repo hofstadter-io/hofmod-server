@@ -1,10 +1,12 @@
 package auth
 
 import (
+	"bytes"
 	"context"
 	"errors"
 	"fmt"
 	"net/http"
+	"text/template"
 	"time"
 
 	"cuelang.org/go/cue"
@@ -93,9 +95,21 @@ func passwordResetRequest(c echo.Context) (err error) {
 			return err
 		}
 
+		T, err := template.New("").Parse(mailer.PasswordResetEmail)
+		data := map[string]interface{} {
+			"Email": email,
+			"Token": tokenString,
+		}
+		var buf bytes.Buffer
+		err = T.Execute(&buf, data)
+		if err != nil {
+			return err
+		}
+
+		body := buf.String()
+
 		sender := "Accounts Service - Example App <accounts@hofstadter.io>"
     subject := "Password Reset Request"
-		body := fmt.Sprintf(passwordResetEmail, tokenString)
     recipient := email
 
     // The message object allows you to add attachments and Bcc recipients

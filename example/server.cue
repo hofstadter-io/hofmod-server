@@ -25,6 +25,10 @@ ServerDesign: srv_s.#Server & {
 		type: "postgres"
 	}
 
+	EmailConfig: {
+		Content: srv_s.DefaultEmails
+	}
+
 	Routes: [{
 		Name: "EchoQ"
 		Path: "/echo"

@@ -67,6 +67,10 @@ import (
 			Filepath: "\(Outdir)/mailer/mailgun.go"
 		},
 		{
+			TemplateName: "mailer/emails.go"
+			Filepath: "\(Outdir)/mailer/emails.go"
+		},
+		{
 			TemplateName: "db/common.go"
 			Filepath: "\(Outdir)/db/common.go"
 		},
@@ -121,10 +125,6 @@ import (
 		{
 			TemplateName: "auth/accts.go"
 			Filepath: "\(OutdirConfig.ServerOutdir)/auth/accts.go"
-		},
-		{
-			TemplateName: "auth/emails.go"
-			Filepath: "\(OutdirConfig.ServerOutdir)/auth/emails.go"
 		},
   ]
 
