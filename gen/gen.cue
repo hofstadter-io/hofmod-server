@@ -11,39 +11,34 @@ import (
 
 	// Where to generate the output
   Outdir: string | *"./"
-	let GenOutdir = Outdir
 
 	// Server design / schema
   Server: schema.#Server
-	let ServerInput = Server
 
 	// Builtin Datamodel design / resources
 	Datamodel: hof.#Datamodel
-	let DM = Datamodel
 
 	// Golang / Cuelang type module name, used for templates and import interpolation
 	Module: string
-	let ModuleInput = Module
 
 	// mainly internal, used when designing in the generators own repository (i.e. for the example)
 	PackageName: string
-	let PackageNameInput = PackageName
 
 	// Sub-generators
 	Generators: {
 
 		ServerGen: #ServerGen & {
-			Outdir: GenOutdir
-			Module: ModuleInput
-			PackageName: PackageNameInput
-			Server: ServerInput
-			Datamodel: DM
+			"Outdir": Outdir
+			"Module": Module
+			"PackageName": PackageName
+			"Server": Server
+			"Datamodel": Datamodel
 		}
 
 		CliGen: #CliGen & {
-			Outdir: GenOutdir
-			Module: ModuleInput
-			Server: ServerInput
+			"Outdir": Outdir
+			"Module": Module
+			"Server": Server
 			// Datamodel: DM
 		}
 
