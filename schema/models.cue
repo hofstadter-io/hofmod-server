@@ -69,6 +69,47 @@ import (
 			}
 		}
 
+		if (Server.EntityConfig.organizations & true) != _|_ {
+			Organization: {
+				ORM: true
+				SoftDelete: true
+				Fields: {
+					name:  hof.#String
+					about: hof.#String
+				}
+				Relations: {
+					Users: {
+						relation: "Many2Many"
+						type: "User"
+						table: "user_organizations"
+					}
+					Groups: {
+						relation: "HasMany"
+						type: "Group"
+						foreignKey: "OrganizationID"
+					}
+				}
+			}
+			User: {
+				Relations: {
+					Organizations: {
+						relation: "Many2Many"
+						type: "Organization"
+						table: "user_organizations"
+					}
+				}
+			}
+			Group: {
+				Relations: {
+					Organization: {
+						relation: "BelongsTo"
+						type: "Organization"
+						GormTag: "gorm:\"type:uuid;foreignKey:OrganizationID\""
+					}
+				}
+			}
+		}
+
 		if (Server.AuthConfig.Authentication.Apikey & true) != _|_ {
 			Apikey: {
 				ORM: true

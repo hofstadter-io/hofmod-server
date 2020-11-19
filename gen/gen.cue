@@ -3,6 +3,7 @@ package gen
 import (
   hof "github.com/hofstadter-io/hof/schema"
 
+	cli_s "github.com/hofstadter-io/hofmod-cli/schema"
   "github.com/hofstadter-io/hofmod-server/schema"
 )
 
@@ -20,6 +21,9 @@ import (
 
 	// Golang / Cuelang type module name, used for templates and import interpolation
 	Module: string
+
+	// Goreleaser config
+	Releases: cli_s.#GoReleaser
 
 	// mainly internal, used when designing in the generators own repository (i.e. for the example)
 	PackageName: string
@@ -39,6 +43,7 @@ import (
 			"Outdir": Outdir
 			"Module": Module
 			"Server": Server
+			"Releases": Releases
 			// Datamodel: DM
 		}
 

@@ -17,6 +17,24 @@ Server: srv_g.#HofGenerator & {
 		}
 	}
 
+	Releases: {
+		Disable: false
+		Draft:    false
+		Author:   "Hofstadter, Inc"
+		Homepage: "https://hofstadter.io"
+
+		GitHub: {
+			Owner: "hofstadter-io"
+			Repo:  "hofmod-server"
+		}
+
+		Docker: {
+			Maintainer: "Hofstadter, Inc <open-source@hofstadter.io>"
+			Repo:       "hofstadter"
+		}
+	}
+
+
 
 	// Needed because we are using the generator from within it's directory
 	PackageName: ""

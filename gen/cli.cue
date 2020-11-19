@@ -15,6 +15,7 @@ import (
 	Outdir: string
 	Server: schema.#Server
 	Module: string
+	Releases: cli_s.#GoReleaser
 
 	Cli: cli_s.#Cli & {
 		Name: Server.Name
@@ -24,6 +25,7 @@ import (
 		Short: Server.description | "server cli"
 
 		Updates: false
+		"Releases": Releases
 
 		OmitRun: true
 
