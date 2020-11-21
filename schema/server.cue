@@ -33,6 +33,7 @@ import (
 		Authorization: {
 			UserRoles: [...string] | *["super", "admin", "user", "anon"]
 			GroupRoles: [...string] | *["owner", "admin", "user"]
+			OrganizationRoles: [...string] | *["owner", "admin", "user", "member"]
 		}
 	}
 
@@ -47,11 +48,6 @@ import (
 	// Routes & Resources
 	Routes: #Routes
 	Resources: #Resources
-
-	// The following are passed through to the CLI generator
-
-	// Setup Goreleaser config
-  Releases: bool | *true
 
 	// directory of files to embed into the binary
 	EmbedDir?: string

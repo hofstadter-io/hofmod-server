@@ -22,6 +22,7 @@ import (
 			User: {
 				ORM: true
 				SoftDelete: true
+				Permissioned: false
 				Fields: {
 					email: hof.#Email & {
 						nullable: false
@@ -46,6 +47,7 @@ import (
 			Group: {
 				ORM: true
 				SoftDelete: true
+				Permissioned: true
 				Fields: {
 					name:  hof.#String
 					about: hof.#String
@@ -73,6 +75,7 @@ import (
 			Organization: {
 				ORM: true
 				SoftDelete: true
+				Permissioned: true
 				Fields: {
 					name:  hof.#String
 					about: hof.#String

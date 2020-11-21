@@ -9,7 +9,9 @@ import (
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 
 	"{{ .ModuleImport }}/server/auth"
+	{{ if gt (len .SERVER.Routes ) 1 }}
 	"{{ .ModuleImport }}/server/routes"
+	{{ end }}
 	"{{ .ModuleImport }}/server/resources"
 )
 

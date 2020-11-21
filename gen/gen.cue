@@ -26,7 +26,7 @@ import (
 	Releases: cli_s.#GoReleaser
 
 	// mainly internal, used when designing in the generators own repository (i.e. for the example)
-	PackageName: string
+	PackageName: string | *"github.com/hofstadter-io/hofmod-server"
 
 	// Sub-generators
 	Generators: {

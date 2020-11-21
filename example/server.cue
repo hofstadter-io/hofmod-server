@@ -27,6 +27,7 @@ ServerDesign: srv_s.#Server & {
 
 	EmailConfig: {
 		Content: srv_s.DefaultEmails
+		...
 	}
 
 	Routes: [{

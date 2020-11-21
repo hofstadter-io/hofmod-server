@@ -59,6 +59,10 @@ import (
   // Files that are not repeatedly used, they are generated once for the whole CLI
   _OnceFiles: [...hof.#HofGeneratorFile] & [
     {
+			// 4-5X slowdown from this
+			//TemplateConfig: {
+				//TemplateSystem: "raymond"
+			//}
       TemplateName: "config.go"
       Filepath: "\(Outdir)/config/config.go"
     },
