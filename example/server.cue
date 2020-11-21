@@ -79,6 +79,6 @@ ServerDesign: srv_s.#Server & {
 		Routes: (srv_s.#DefaultResourceRoutes & { Model: CustomModels.Models.Todo }).Routes
 	},{
 		Model: BuiltinModels.Models.User
-		Routes: [ for r, R in (srv_s.#DefaultResourceRoutes & { Model: BuiltinModels.Models.User }).RoutesMap if strings.HasSuffix(r, "Admin") && !strings.HasPrefix(r, "Create") { R } ]
+		Routes: [ for R in (srv_s.#DefaultResourceRoutes & { Model: BuiltinModels.Models.User }).Routes if strings.HasSuffix(R.Name, "Admin") && !strings.Contains(R.Name, "Create") { R } ]
 	}]
 }
