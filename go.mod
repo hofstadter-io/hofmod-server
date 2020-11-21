@@ -3,12 +3,11 @@ module github.com/hofstadter-io/hofmod-server
 go 1.15
 
 require (
-	cuelang.org/go v0.2.1
+	cuelang.org/go v0.3.0-alpha4
 	github.com/dgrijalva/jwt-go/v4 v4.0.0-preview1
 	github.com/go-playground/validator/v10 v10.4.1
 	github.com/google/uuid v1.1.1
-	github.com/hofstadter-io/hof v0.5.13
-	github.com/hofstadter-io/yagu v0.0.3 // indirect
+	github.com/hofstadter-io/hof v0.5.14
 	github.com/jackc/pgx/v4 v4.9.0
 	github.com/kirsle/configdir v0.0.0-20170128060238-e45d2f54772f
 	github.com/kr/pretty v0.2.0 // indirect
@@ -28,5 +27,3 @@ require (
 )
 
 replace cuelang.org/go => ../../../cue/cue
-
-replace github.com/hofstadter-io/hof => ../../hof

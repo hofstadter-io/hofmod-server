@@ -197,6 +197,8 @@ github.com/hofstadter-io/dotpath v0.0.0-20191027071558-52e2819b7d2d/go.mod h1:hO
 github.com/hofstadter-io/hof v0.3.8/go.mod h1:EpDjAdUJEYeur98TFkN4ZdRyGZD/JrhXEiXYusPYJDQ=
 github.com/hofstadter-io/hof v0.5.12 h1:aGvP2oNQ/deSjMNYVAy1SbysjYUl55FFsxcO2yEG3TQ=
 github.com/hofstadter-io/hof v0.5.12/go.mod h1:NKIO1cpp5ZRUMTu1tkNT2ObNxFElXqd6vPmi4AzzdT8=
+github.com/hofstadter-io/hof v0.5.14 h1:kgEfLCJLFbEwpUdcMUN6VJjcr2VI6ukd7Am4Jwf3208=
+github.com/hofstadter-io/hof v0.5.14/go.mod h1:NKIO1cpp5ZRUMTu1tkNT2ObNxFElXqd6vPmi4AzzdT8=
 github.com/hofstadter-io/hof-lang v0.0.0-20180925221847-4d1c962b0729/go.mod h1:4dVdBwjI9Mw89zYA2aE5kKZR4VL1rcBbCR0AScQ5wkU=
 github.com/hofstadter-io/mvs v0.5.0/go.mod h1:Cvq23OVa/x1wA720bNCHPgvNuS5+4g2ZWFsWgXfLMUU=
 github.com/hofstadter-io/yagu v0.0.3 h1:VheQUfbnC7IJ93BN5d1BFBEr6r3CN7loVcG/EpW690o=
