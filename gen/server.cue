@@ -49,10 +49,14 @@ import (
   // Combine everything together and output files that might need to be generated
   _All: [
    [ for _, F in _OnceFiles { F } ],
-   [ for _, F in _ModelFiles { F } ],
+
+   [ for _, F in _BuiltinModelFiles { F } ],
+   [ for _, F in _CustomModelFiles { F } ],
+
    [ for _, F in _L1_RouteFiles { F } ],
    [ for _, F in _L2_RouteFiles { F } ],
    [ for _, F in _L3_RouteFiles { F } ],
+
    [ for _, F in _L1_ResourceFiles { F } ],
   ]
 
@@ -130,25 +134,43 @@ import (
 			TemplateName: "auth/accts.go"
 			Filepath: "\(OutdirConfig.ServerOutdir)/auth/accts.go"
 		},
+		if Server.EntityConfig.users {
+			{
+				TemplateName: "auth/user.go"
+				Filepath: "\(OutdirConfig.ServerOutdir)/auth/user.go"
+			}
+		}
+		if Server.EntityConfig.groups {
+			{
+				TemplateName: "auth/group.go"
+				Filepath: "\(OutdirConfig.ServerOutdir)/auth/group.go"
+			}
+		}
+		if Server.EntityConfig.organizations {
+			{
+				TemplateName: "auth/organization.go"
+				Filepath: "\(OutdirConfig.ServerOutdir)/auth/organization.go"
+			}
+		}
   ]
 
-	// No actual files here
-  _Modelsets: [...hof.#HofGeneratorFile] & list.FlattenN([[
-    for _, M in Datamodel.Modelsets
+	// Models
+  _BuiltinModelFiles: [...hof.#HofGeneratorFile] & [ // List comprehension
+    for _, M in Datamodel.Modelsets.Builtin.MigrateOrder
     {
       In: {
-        MODELSET: {
-          M
-        }
+				MODEL: {
+					M
+          PackageName: "dm"
+				}
       }
-		}
-	]], 1)
+      TemplateName: "dm/model.go"
+      Filepath: "\(Outdir)/dm/\(M.modelName).go"
+    }
+  ]
 
-  _MPP: [ for P in _Modelsets if len(P.In.MODELSET.Models) > 0 {
-    [ for M in P.In.MODELSET.Models { M,  Parent: { Name: P.In.MODELSET.Name } }]
-  }]
-  _ModelFiles: [...hof.#HofGeneratorFile] & [ // List comprehension
-    for _, M in list.FlattenN(_MPP, 1)
+  _CustomModelFiles: [...hof.#HofGeneratorFile] & [ // List comprehension
+    for _, M in Datamodel.Modelsets.Custom.MigrateOrder
     {
       In: {
 				MODEL: {

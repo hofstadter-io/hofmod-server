@@ -1,8 +1,10 @@
 package auth
 
 import (
+	"fmt"
 	"net/http"
 
+	"github.com/google/uuid"
 	"github.com/labstack/echo/v4"
 
 	"{{ .ModuleImport }}/dm"
@@ -87,4 +89,31 @@ func AuthChecker(c echo.Context, roles []string) (*dm.User, error) {
 	}
 
 	return user, nil
+}
+
+func LookupOrgAndGroups(next echo.HandlerFunc) echo.HandlerFunc {
+	return func(c echo.Context) error {
+		U := c.Get("user")
+		if U == nil {
+			return fmt.Errorf("User should never be nil here")
+		}
+
+		user := U.(*dm.User)
+
+		orgkey := c.QueryParam("org")
+		// no key, bad request
+		if orgkey == "" {
+			return c.String(http.StatusBadRequest, "org query param required")
+		}
+		// check
+		_, err := uuid.Parse(orgkey)
+		if err != nil {
+			return c.String(http.StatusBadRequest, "org query param has invalid format")
+		}
+
+		fmt.Println(user.ID)
+
+		// lookup orgs, groups, and roles in each
+		return next(c)
+	}
 }

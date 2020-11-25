@@ -13,16 +13,30 @@ import (
 
 	MigrateOrder: [
 		Models.User,
-		Models.Group,
+
 		Models.Apikey,
+
+		if Server.EntityConfig.groups {
+			Models.Group,
+		}
+		if Server.EntityConfig.groups {
+			Models.GroupPerm,
+		}
+
+		if Server.EntityConfig.organizations {
+			Models.Organization,
+		}
+		if Server.EntityConfig.organizations {
+			Models.OrganizationPerm,
+		}
 	]
+
 	Models: {
 
-		if (Server.EntityConfig.users & true) != _|_ {
+		if Server.EntityConfig.users {
 			User: {
 				ORM: true
 				SoftDelete: true
-				Permissioned: false
 				Fields: {
 					email: hof.#Email & {
 						nullable: false
@@ -30,7 +44,7 @@ import (
 						nullable: false
 					}
 					name:  hof.#String
-					if (Server.AuthConfig.Authentication.Password & true) != _|_ {
+					if Server.AuthConfig.Authentication.Password {
 						password: hof.#Password
 					}
 					role: hof.#String & {
@@ -43,53 +57,94 @@ import (
 			}
 		}
 
-		if (Server.EntityConfig.groups & true) != _|_ {
+		if Server.EntityConfig.groups {
 			Group: {
 				ORM: true
 				SoftDelete: true
-				Permissioned: true
 				Fields: {
 					name:  hof.#String
 					about: hof.#String
 				}
 				Relations: {
-					Users: {
-						relation: "Many2Many"
+					Perms: {
+						relation: "HasMany"
+						type: "GroupPerm"
+						foreignKey: "GroupID"
+					}
+				}
+			}
+			GroupPerm: {
+				ORM: true
+				SoftDelete: true
+				Fields: {
+					role: hof.#String
+				}
+				Relations: {
+					User: {
+						relation: "BelongsTo"
 						type: "User"
-						table: "user_groups"
+						GormTag: "gorm:\"type:uuid;foreignKey:UserID\""
+					}
+					Group: {
+						relation: "BelongsTo"
+						type: "Group"
+						GormTag: "gorm:\"type:uuid;foreignKey:GroupID\""
 					}
 				}
 			}
 			User: {
 				Relations: {
 					Groups: {
-						relation: "Many2Many"
+						relation: "HasMany"
 						type: "Group"
-						table: "user_groups"
+						GormTag: "gorm:\"-\""
+					}
+					GroupPerms: {
+						relation: "HasMany"
+						type: "GroupPerm"
+						foreignKey: "UserID"
 					}
 				}
 			}
 		}
 
-		if (Server.EntityConfig.organizations & true) != _|_ {
+		if Server.EntityConfig.organizations {
 			Organization: {
 				ORM: true
 				SoftDelete: true
-				Permissioned: true
 				Fields: {
 					name:  hof.#String
 					about: hof.#String
 				}
 				Relations: {
-					Users: {
-						relation: "Many2Many"
-						type: "User"
-						table: "user_organizations"
+					Perms: {
+						relation: "HasMany"
+						type: "OrganizationPerm"
+						foreignKey: "UserID"
 					}
 					Groups: {
 						relation: "HasMany"
 						type: "Group"
 						foreignKey: "OrganizationID"
+					}
+				}
+			}
+			OrganizationPerm: {
+				ORM: true
+				SoftDelete: true
+				Fields: {
+					role: hof.#String
+				}
+				Relations: {
+					User: {
+						relation: "BelongsTo"
+						type: "User"
+						GormTag: "gorm:\"type:uuid;foreignKey:UserID\""
+					}
+					Group: {
+						relation: "BelongsTo"
+						type: "Group"
+						GormTag: "gorm:\"type:uuid;foreignKey:GroupID\""
 					}
 				}
 			}
@@ -113,7 +168,7 @@ import (
 			}
 		}
 
-		if (Server.AuthConfig.Authentication.Apikey & true) != _|_ {
+		if Server.AuthConfig.Authentication.Apikey {
 			Apikey: {
 				ORM: true
 				SoftDelete: true

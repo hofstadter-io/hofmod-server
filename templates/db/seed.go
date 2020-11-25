@@ -46,26 +46,6 @@ func Seed(entrypoints []string) (err error) {
 	return nil
 }
 
-func migOld(entrypoints []string) (err error) {
-	DB.AutoMigrate(
-	// Builtin Models
-	{{ range $i, $model := .MODELS.Builtin.MigrateOrder -}}
-		&dm.{{ $model.ModelName }}{},
-	{{ end }}
-
-	// Custom Models
-	{{ range $i, $mset := .MODELS.Custom.Modelsets -}}
-	{{ $MODELS := $mset.Models -}}
-	{{ if $mset.MigrateOrder }}{{ $MODELS = $mset.MigrateOrder }}{{ end -}}
-	{{ range $j, $model := $MODELS -}}
-		&dm.{{ $model.ModelName }}{},
-	{{ end }}
-	{{ end }}
-	)
-
-	return nil
-}
-
 func loadSeeds(env string, entrypoints []string) (seeds cue.Value, err error) {
 	var errs []error
 	CueRT := &cue.Runtime{}
@@ -138,11 +118,11 @@ func runSeeds(seeds cue.Value) (err error) {
 
 	// TODO, introspect fields looking for bcrypt
 	{{ range $i, $model := .MODELS.Builtin.MigrateOrder -}}
-	{{ if eq $model.ModelName "User" }}
+	{{ if eq $model.ModelName "User" -}}
 	err = runSeed(seeds, &dm.{{ $model.ModelName }}{}, "{{ $model.ModelName }}", []string{"password"})
-	{{ else }}
+	{{ else -}}
 	err = runSeed(seeds, &dm.{{ $model.ModelName }}{}, "{{ $model.ModelName }}", nil)
-	{{ end }}
+	{{ end -}}
 	if err != nil {
 		return err
 	}

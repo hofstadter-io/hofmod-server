@@ -38,7 +38,9 @@ import (
 	}
 
 	DatabaseConfig: {
-		type: *"postgres" | "mysql" | "sqlite" | "sqlserver"
+		type: "postgres"
+		// TODO, implement more db types
+		// type: *"postgres" | "mysql" | "sqlite" | "sqlserver"
 	}
 
 	EmailConfig: {
