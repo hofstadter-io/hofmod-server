@@ -1,10 +1,10 @@
 package schema
 
 import (
-  hof "github.com/hofstadter-io/hof/schema"
+  dm "github.com/hofstadter-io/hof/schema/dm"
 )
 
-#BuiltinModels: hof.#Modelset & {
+#BuiltinModels: dm.#Modelset & {
 	Name: "Builtin"
 	Server: {
 		AuthConfig: _
@@ -38,21 +38,21 @@ import (
 				ORM: true
 				SoftDelete: true
 				Fields: {
-					email: hof.#Email & {
+					email: dm.#Email & {
 						nullable: false
 						unique: true
 						nullable: false
 					}
-					name:  hof.#String
+					name:  dm.#String
 					if Server.AuthConfig.Authentication.Password {
-						password: hof.#Password
+						password: dm.#Password
 					}
-					role: hof.#String & {
+					role: dm.#String & {
 						length: 16
 						nullable: false
 					}
-					active: hof.#Bool
-					disabled: hof.#Bool
+					active: dm.#Bool
+					disabled: dm.#Bool
 				}
 			}
 		}
@@ -62,8 +62,8 @@ import (
 				ORM: true
 				SoftDelete: true
 				Fields: {
-					name:  hof.#String
-					about: hof.#String
+					name:  dm.#String
+					about: dm.#String
 				}
 				Relations: {
 					Perms: {
@@ -77,7 +77,7 @@ import (
 				ORM: true
 				SoftDelete: true
 				Fields: {
-					role: hof.#String
+					role: dm.#String
 				}
 				Relations: {
 					User: {
@@ -113,8 +113,8 @@ import (
 				ORM: true
 				SoftDelete: true
 				Fields: {
-					name:  hof.#String
-					about: hof.#String
+					name:  dm.#String
+					about: dm.#String
 				}
 				Relations: {
 					Perms: {
@@ -133,7 +133,7 @@ import (
 				ORM: true
 				SoftDelete: true
 				Fields: {
-					role: hof.#String
+					role: dm.#String
 				}
 				Relations: {
 					User: {
@@ -173,8 +173,8 @@ import (
 				ORM: true
 				SoftDelete: true
 				Fields: {
-					name: hof.#String
-					key:  hof.#UUID & { GormTag: "gorm:\"type:uuid;index;default:gen_random_uuid()\"" }
+					name: dm.#String
+					key:  dm.#UUID & { GormTag: "gorm:\"type:uuid;index;default:gen_random_uuid()\"" }
 				}
 				Relations: {
 					User: {

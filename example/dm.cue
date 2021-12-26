@@ -1,24 +1,24 @@
 package example
 
 import (
-	hof "github.com/hofstadter-io/hof/schema"
+	dm "github.com/hofstadter-io/hof/schema/dm"
 
   srv_s "github.com/hofstadter-io/hofmod-server/schema"
 )
 
-CustomModels: hof.#Modelset & {
+CustomModels: dm.#Modelset & {
 	MigrateOrder: [
 		Models.Todo,
 	]
 	Models: {
-		Todo: hof.#Model & {
+		Todo: dm.#Model & {
 			Name: "Todo"
 			ORM: true
 			SoftDelete: true
 			Fields: {
-				name:     hof.#String & { unique: true, validation: { required: true } }
-				content:  hof.#String & { length: 2048, validation: { required: true } }
-				complete: hof.#Bool
+				name:     dm.#String & { unique: true, validation: { required: true } }
+				content:  dm.#String & { length: 2048, validation: { required: true } }
+				complete: dm.#Bool
 			}
 			Relations: {
 				User: {
@@ -42,7 +42,7 @@ BuiltinModels: srv_s.#BuiltinModels & {
 		EntityConfig: ServerDesign.EntityConfig
 	}
 	Models: {
-		User: hof.#Model & {
+		User: dm.#Model & {
 			Relations: {
 				Todos: {
 					relation: "HasMany"

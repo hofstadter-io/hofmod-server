@@ -1,11 +1,11 @@
 package schema
 
 import (
-	hof "github.com/hofstadter-io/hof/schema"
+	dm "github.com/hofstadter-io/hof/schema/dm"
 )
 
 #DefaultCreateOwnBody: {
-	M: hof.#Model
+	M: dm.#Model
 	Body: """
 	user := c.Get("user").(*dm.User)
 
@@ -21,7 +21,7 @@ import (
 }
 
 #DefaultUpdateOwnBody: {
-	M: hof.#Model
+	M: dm.#Model
 	Body: """
 	user := c.Get("user").(*dm.User)
 
@@ -43,7 +43,7 @@ import (
 }
 
 #DefaultDeleteOwnBody: {
-	M: hof.#Model
+	M: dm.#Model
 	Body: """
 	user := c.Get("user").(*dm.User)
 
@@ -62,7 +62,7 @@ import (
 }
 
 #DefaultListOwnBody: {
-	M: hof.#Model
+	M: dm.#Model
 	Body: """
 	user := c.Get("user").(*dm.User)
 
@@ -96,7 +96,7 @@ import (
 }
 
 #DefaultGetOwnBody: {
-	M: hof.#Model
+	M: dm.#Model
 	Body: """
 	user := c.Get("user").(*dm.User)
 	var data dm.\(M.ModelName)
@@ -119,7 +119,7 @@ import (
 }
 
 #DefaultCreateAdminBody: {
-	M: hof.#Model
+	M: dm.#Model
 	Body: """
 	UserID, err := uuid.Parse(userID)
 	if err != nil {
@@ -138,7 +138,7 @@ import (
 }
 
 #DefaultUpdateAdminBody: {
-	M: hof.#Model
+	M: dm.#Model
 	Body: """
 	ID, err := uuid.Parse(id)
 	if err != nil {
@@ -157,7 +157,7 @@ import (
 }
 
 #DefaultDeleteAdminBody: {
-	M: hof.#Model
+	M: dm.#Model
 	Body: """
 	ID, err := uuid.Parse(id)
 	if err != nil {
@@ -174,7 +174,7 @@ import (
 }
 
 #DefaultListAdminBody: {
-	M: hof.#Model
+	M: dm.#Model
 	Body: """
 
 	var data []dm.\(M.ModelName)
@@ -214,7 +214,7 @@ import (
 }
 
 #DefaultGetAdminBody: {
-	M: hof.#Model
+	M: dm.#Model
 	Body: """
 	var data dm.\(M.ModelName)
 	tx := db.DB.Model(&dm.\(M.ModelName){}).Where("id = ?", id)

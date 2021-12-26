@@ -3,7 +3,7 @@ package schema
 import (
   "strings"
 
-	hof "github.com/hofstadter-io/hof/schema"
+	dm "github.com/hofstadter-io/hof/schema/dm"
 )
 
 // Server Schema
@@ -87,7 +87,7 @@ import (
 
 #Resources: [...#Resource] | *[]
 #Resource: {
-	Model: hof.#Model
+	Model: dm.#Model
 
 	Name: string | *"\(Model.Name)"
 	name: string | *"\(strings.ToLower(Name))"
@@ -107,7 +107,7 @@ import (
 }
 
 #DefaultResourceRoutes: {
-	Model: hof.#Model
+	Model: dm.#Model
 
 	Routes: [{
 		Name: "\(Model.ModelName)CreateOwn"

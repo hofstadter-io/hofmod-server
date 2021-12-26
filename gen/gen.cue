@@ -1,14 +1,15 @@
 package gen
 
 import (
-  hof "github.com/hofstadter-io/hof/schema"
+  gen "github.com/hofstadter-io/hof/schema/gen"
+  dm "github.com/hofstadter-io/hof/schema/dm"
 
 	cli_s "github.com/hofstadter-io/hofmod-cli/schema"
   "github.com/hofstadter-io/hofmod-server/schema"
 )
 
 // Meta generator for sharing inputs
-#HofGenerator: hof.#HofGenerator & {
+#HofGenerator: gen.#HofGenerator & {
 
 	// Where to generate the output
   Outdir: string | *"./"
@@ -17,7 +18,7 @@ import (
   Server: schema.#Server
 
 	// Builtin Datamodel design / resources
-	Datamodel: hof.#Datamodel
+	Datamodel: dm.#Datamodel
 
 	// Golang / Cuelang type module name, used for templates and import interpolation
 	Module: string
