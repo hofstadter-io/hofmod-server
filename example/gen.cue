@@ -5,6 +5,8 @@ import (
 )
 
 Server: srv_g.#HofGenerator & {
+	@gen(server,golang)
+
 	Outdir: "./output"
 	Module: "github.com/hofstadter-io/hofmod-server"
 
@@ -38,4 +40,4 @@ Server: srv_g.#HofGenerator & {
 
 	// Needed because we are using the generator from within it's directory
 	PackageName: ""
-} @gen(server,golang)
+}

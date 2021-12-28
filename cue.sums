@@ -1,5 +1,7 @@
 github.com/hofstadter-io/ghacue v0.0.0 h1:di29Ot6+mOESTM9xgzu6TNOgpzEvyBWFFI8oRSH76Rk=
 github.com/hofstadter-io/ghacue v0.0.0/cue.mods h1:6BbcRic6px1+lCLiW6O5dYt+GcCpnmzdpbcILHrqhOQ=
+github.com/hofstadter-io/ghacue v0.1.0 h1:zAFJQZLyJgF4tqUrOHWCPaFa/V+yo90mCx3nPUsFr5g=
+github.com/hofstadter-io/ghacue v0.1.0/cue.mods h1:6BbcRic6px1+lCLiW6O5dYt+GcCpnmzdpbcILHrqhOQ=
 github.com/hofstadter-io/hof v0.5.12 h1:v9iTQ3lfaWAeZh9VFPOGbvJHhsWO+zaWkr13u4udP64=
 github.com/hofstadter-io/hof v0.5.12/cue.mods h1:PfIHRjnSE2EMfNRMtG8N+Fu07acibumd8KTqHB7az8o=
 github.com/hofstadter-io/hof v0.5.14 h1:mZ3SVS6+EBUIwTP2dC9mrCOoS8CGBwJqgxPpyPwlHe0=
@@ -20,5 +22,7 @@ github.com/hofstadter-io/hofmod-cuefig v0.0.0 h1:eHYMh5WHrNSz1eryqHAIZpYmhnIKg9f
 github.com/hofstadter-io/hofmod-cuefig v0.0.0/cue.mods h1:n3ifKb/OFP/iU/EstbUbDz3VFmo9qJ1OmH7RjP/s+Os=
 github.com/hofstadter-io/hofmod-cuefig v0.0.3 h1:gwKpDcJ2ss/Vk0dEiQl5BnKcc0Nt32fs3J0a1xaXtgk=
 github.com/hofstadter-io/hofmod-cuefig v0.0.3/cue.mods h1:PCjQBwVNEnHCoMNzr71QGnpc0BqhOI3KGCctueyk65Q=
+github.com/hofstadter-io/hofmod-cuefig v0.0.4 h1:fW2mXRwvZINniwPHOP7zm7CFHYKCq11np5QXuTHOog8=
+github.com/hofstadter-io/hofmod-cuefig v0.0.4/cue.mods h1:je+SPc0/c3plNKhtXUMUQSjQg6F0o6QU8TV9Y3rD8mE=
 github.com/hofstadter-io/hofmod-struct v0.0.0 h1:caiZk/xhhHKYZe5JxuT/GWkADFdWGcVC2K2i2UzZnlM=
 github.com/hofstadter-io/hofmod-struct v0.0.0/cue.mods h1:s5dw7kzlcEr6jSLZtUyGy7oqOjTJH1y+RDmqMLzfUIM=
